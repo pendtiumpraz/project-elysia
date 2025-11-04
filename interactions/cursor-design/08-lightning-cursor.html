@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Cursor</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffff00;
+            font-size: 96px;
+            text-align: center;
+            text-shadow: 0 0 20px #ffff00;
+        }
+        
+        .lightning {
+            position: fixed;
+            font-size: 48px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 0 20px #ffff00);
+        }
+        
+        .lightning-bolt {
+            position: fixed;
+            width: 3px;
+            background: linear-gradient(180deg, #ffff00, transparent);
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 10px #ffff00;
+            animation: zap 0.3s ease-out forwards;
+        }
+        
+        @keyframes zap {
+            from {opacity: 1; height: 0;}
+            to {opacity: 0; height: var(--zap-height);}
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffff00;
+            font-size: 18px;
+            text-align: center;
+            text-shadow: 0 0 10px #ffff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="lightning" id="lightning">⚡</div>
+    
+    <h1>⚡ LIGHTNING<br>CURSOR</h1>
+    
+    <div class="info">
+        Click to strike lightning!
+    </div>
+    
+    <script>
+        const lightning = document.getElementById('lightning');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animate() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            
+            lightning.style.left = cursorX + 'px';
+            lightning.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const bolt = document.createElement('div');
+                    bolt.className = 'lightning-bolt';
+                    const angle = Math.random() * 360;
+                    const distance = Math.random() * 100 + 50;
+                    const x = e.clientX + Math.cos(angle * Math.PI / 180) * distance;
+                    const y = e.clientY;
+                    const height = Math.random() * 200 + 100;
+                    
+                    bolt.style.left = x + 'px';
+                    bolt.style.top = y + 'px';
+                    bolt.style.setProperty('--zap-height', height + 'px');
+                    bolt.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+                    
+                    document.body.appendChild(bolt);
+                    
+                    setTimeout(() => bolt.remove(), 300);
+                }, i * 50);
+            }
+        });
+    </script>
+</body>
+</html>

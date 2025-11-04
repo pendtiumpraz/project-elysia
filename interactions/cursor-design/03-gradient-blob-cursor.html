@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Blob Cursor</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 96px;
+            text-align: center;
+            z-index: 10;
+            mix-blend-mode: difference;
+        }
+        
+        .blob-cursor {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            border-radius: 40% 60% 70% 30% / 60% 40% 60% 40%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            filter: blur(40px);
+            opacity: 0.8;
+            animation: blob-morph 8s ease-in-out infinite, gradient-shift 5s ease infinite;
+        }
+        
+        @keyframes blob-morph {
+            0%, 100% {border-radius: 40% 60% 70% 30% / 60% 40% 60% 40%;}
+            25% {border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;}
+            50% {border-radius: 30% 70% 30% 70% / 70% 30% 70% 30%;}
+            75% {border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;}
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            z-index: 10;
+            mix-blend-mode: difference;
+        }
+    </style>
+</head>
+<body>
+    <div class="blob-cursor" id="blobCursor"></div>
+    
+    <h1>🌈 GRADIENT<br>BLOB</h1>
+    
+    <div class="info">
+        Move to see the morphing gradient blob
+    </div>
+    
+    <script>
+        const blobCursor = document.getElementById('blobCursor');
+        let mouseX = 0, mouseY = 0;
+        let blobX = 0, blobY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animate() {
+            blobX += (mouseX - blobX) * 0.1;
+            blobY += (mouseY - blobY) * 0.1;
+            
+            blobCursor.style.left = blobX + 'px';
+            blobCursor.style.top = blobY + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbow Trail Cursor</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 120px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            user-select: none;
+        }
+        
+        .rainbow-dot {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fade-out 1s forwards;
+        }
+        
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌈<br>RAINBOW</h1>
+    
+    <div class="info">
+        Move your mouse to paint rainbows!
+    </div>
+    
+    <script>
+        let hue = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            const dot = document.createElement('div');
+            dot.className = 'rainbow-dot';
+            dot.style.left = e.clientX - 10 + 'px';
+            dot.style.top = e.clientY - 10 + 'px';
+            dot.style.background = `hsl(${hue}, 100%, 50%)`;
+            dot.style.boxShadow = `0 0 20px hsl(${hue}, 100%, 50%)`;
+            
+            document.body.appendChild(dot);
+            
+            hue = (hue + 10) % 360;
+            
+            setTimeout(() => dot.remove(), 1000);
+        });
+    </script>
+</body>
+</html>

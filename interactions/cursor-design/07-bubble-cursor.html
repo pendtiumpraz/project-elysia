@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Cursor</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 96px;
+            text-align: center;
+        }
+        
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            animation: bubble-float 3s ease-out forwards;
+        }
+        
+        @keyframes bubble-float {
+            from {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-200px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>🫧 BUBBLE<br>CURSOR</h1>
+    
+    <div class="info">
+        Move to create bubbles!
+    </div>
+    
+    <script>
+        let lastBubbleTime = 0;
+        const BUBBLE_INTERVAL = 50;
+        
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastBubbleTime > BUBBLE_INTERVAL) {
+                createBubble(e.clientX, e.clientY);
+                lastBubbleTime = now;
+            }
+        });
+        
+        function createBubble(x, y) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = Math.random() * 40 + 20;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = x - size/2 + 'px';
+            bubble.style.top = y - size/2 + 'px';
+            bubble.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            
+            document.body.appendChild(bubble);
+            
+            setTimeout(() => bubble.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelated Cursor</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            background: #222;
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #0f0;
+            font-size: 48px;
+            text-shadow: 0 0 10px #0f0;
+            text-align: center;
+        }
+        
+        .pixel-cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            image-rendering: pixelated;
+        }
+        
+        .pixel-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 8px);
+            grid-template-rows: repeat(5, 8px);
+            gap: 0;
+        }
+        
+        .pixel {
+            width: 8px;
+            height: 8px;
+            background: #0f0;
+            box-shadow: 0 0 5px #0f0;
+        }
+        
+        .pixel.dark {
+            background: #050;
+        }
+        
+        .retro-grid {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+        
+        .demo-area {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .retro-btn {
+            padding: 20px 40px;
+            background: #0f0;
+            color: #000;
+            border: 4px solid #0a0;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: none;
+            box-shadow: 0 4px 0 #0a0, 0 0 20px #0f0;
+            transition: all 0.1s;
+        }
+        
+        .retro-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #0a0, 0 0 20px #0f0;
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #0f0;
+            font-size: 16px;
+            text-align: center;
+            text-shadow: 0 0 5px #0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="retro-grid"></div>
+    
+    <div class="pixel-cursor" id="pixelCursor">
+        <div class="pixel-grid">
+            <div class="pixel"></div>
+            <div class="pixel dark"></div>
+            <div class="pixel"></div>
+            <div class="pixel dark"></div>
+            <div class="pixel"></div>
+            
+            <div class="pixel dark"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel dark"></div>
+            
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            
+            <div class="pixel dark"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel dark"></div>
+            
+            <div class="pixel"></div>
+            <div class="pixel dark"></div>
+            <div class="pixel"></div>
+            <div class="pixel dark"></div>
+            <div class="pixel"></div>
+        </div>
+    </div>
+    
+    <h1>🎮 PIXELATED CURSOR</h1>
+    
+    <div class="demo-area">
+        <button class="retro-btn">START</button>
+        <button class="retro-btn">OPTIONS</button>
+        <button class="retro-btn">QUIT</button>
+    </div>
+    
+    <div class="info">
+        &gt; 8-BIT RETRO GAMING STYLE &lt;
+    </div>
+    
+    <script>
+        const pixelCursor = document.getElementById('pixelCursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            pixelCursor.style.left = e.clientX + 'px';
+            pixelCursor.style.top = e.clientY + 'px';
+        });
+    </script>
+</body>
+</html>

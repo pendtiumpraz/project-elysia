@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Follow Cursor</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 48px;
+            text-align: center;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .text-cursor {
+            position: fixed;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: all 0.1s;
+        }
+        
+        .text-trail {
+            position: fixed;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            pointer-events: none;
+            z-index: 9998;
+            animation: text-fade 1s forwards;
+        }
+        
+        @keyframes text-fade {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+        
+        .text-input {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            font-size: 18px;
+            border: 3px solid white;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .text-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="text-cursor" id="textCursor">HELLO</div>
+    
+    <h1>📝 Text Follow Cursor</h1>
+    
+    <input type="text" class="text-input" id="textInput" placeholder="Type your cursor text..." maxlength="15">
+    
+    <div class="info">
+        Type text above to customize your cursor!<br>
+        Move around to see the effect
+    </div>
+    
+    <script>
+        const textCursor = document.getElementById('textCursor');
+        const textInput = document.getElementById('textInput');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let currentText = 'HELLO';
+        let trailCounter = 0;
+        
+        textInput.addEventListener('input', (e) => {
+            currentText = e.target.value.toUpperCase() || 'HELLO';
+            textCursor.textContent = currentText;
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            trailCounter++;
+            if (trailCounter % 10 === 0) {
+                createTrail(mouseX, mouseY);
+            }
+        });
+        
+        function animate() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            
+            textCursor.style.left = cursorX + 'px';
+            textCursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        function createTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'text-trail';
+            trail.textContent = currentText;
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            trail.style.transform = 'translate(-50%, -50%)';
+            
+            document.body.appendChild(trail);
+            
+            setTimeout(() => trail.remove(), 1000);
+        }
+    </script>
+</body>
+</html>

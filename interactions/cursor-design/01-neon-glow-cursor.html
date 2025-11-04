@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Glow Cursor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #0a0a0a;
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00ffff;
+            font-size: 72px;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+            text-align: center;
+            user-select: none;
+        }
+        
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9998;
+            mix-blend-mode: screen;
+            transform: translate(-50%, -50%);
+        }
+        
+        .cursor-trail {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00ffff;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff;
+            transform: translate(-50%, -50%);
+        }
+        
+        .cursor-ring {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #00ffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 20px #00ffff;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease-out;
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #00ffff;
+            font-size: 18px;
+            text-align: center;
+            text-shadow: 0 0 10px #00ffff;
+        }
+        
+        .demo-box {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            transition: all 0.3s;
+        }
+        
+        .demo-box:hover {
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 40px #00ffff;
+        }
+        
+        .box-1 {top: 20%; left: 10%;}
+        .box-2 {top: 20%; right: 10%;}
+        .box-3 {bottom: 20%; left: 10%;}
+        .box-4 {bottom: 20%; right: 10%;}
+    </style>
+</head>
+<body>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="cursor-trail" id="cursorTrail"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    
+    <h1>💎 NEON GLOW<br>CURSOR</h1>
+    
+    <div class="demo-box box-1">⚡</div>
+    <div class="demo-box box-2">🔥</div>
+    <div class="demo-box box-3">✨</div>
+    <div class="demo-box box-4">💫</div>
+    
+    <div class="info">
+        Move your mouse to see the neon glow effect
+    </div>
+    
+    <script>
+        const cursorGlow = document.getElementById('cursorGlow');
+        const cursorTrail = document.getElementById('cursorTrail');
+        const cursorRing = document.getElementById('cursorRing');
+        
+        let mouseX = 0, mouseY = 0;
+        let trailX = 0, trailY = 0;
+        let ringX = 0, ringY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursorGlow.style.left = mouseX + 'px';
+            cursorGlow.style.top = mouseY + 'px';
+        });
+        
+        function animate() {
+            trailX += (mouseX - trailX) * 0.3;
+            trailY += (mouseY - trailY) * 0.3;
+            
+            ringX += (mouseX - ringX) * 0.15;
+            ringY += (mouseY - ringY) * 0.15;
+            
+            cursorTrail.style.left = trailX + 'px';
+            cursorTrail.style.top = trailY + 'px';
+            
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        document.querySelectorAll('.demo-box').forEach(box => {
+            box.addEventListener('mouseenter', () => {
+                cursorRing.style.width = '80px';
+                cursorRing.style.height = '80px';
+            });
+            
+            box.addEventListener('mouseleave', () => {
+                cursorRing.style.width = '50px';
+                cursorRing.style.height = '50px';
+            });
+        });
+    </script>
+</body>
+</html>

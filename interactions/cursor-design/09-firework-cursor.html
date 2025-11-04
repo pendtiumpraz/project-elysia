@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firework Cursor</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 48px;
+            text-align: center;
+        }
+        
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .cursor-icon {
+            position: fixed;
+            font-size: 32px;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-icon" id="cursorIcon">✨</div>
+    
+    <h1>🎆 Firework Cursor</h1>
+    
+    <div class="info">
+        Click anywhere to launch fireworks!
+    </div>
+    
+    <script>
+        const cursorIcon = document.getElementById('cursorIcon');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorIcon.style.left = e.clientX + 'px';
+            cursorIcon.style.top = e.clientY + 'px';
+        });
+        
+        document.addEventListener('click', (e) => {
+            launchFirework(e.clientX, e.clientY);
+        });
+        
+        function launchFirework(x, y) {
+            const colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3'];
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const velocity = Math.random() * 5 + 3;
+                
+                createSparkle(x, y, angle, velocity, colors[Math.floor(Math.random() * colors.length)]);
+            }
+        }
+        
+        function createSparkle(x, y, angle, velocity, color) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.background = color;
+            sparkle.style.boxShadow = `0 0 10px ${color}`;
+            
+            document.body.appendChild(sparkle);
+            
+            let posX = x;
+            let posY = y;
+            let velX = Math.cos(angle) * velocity;
+            let velY = Math.sin(angle) * velocity;
+            let life = 100;
+            
+            function animate() {
+                posX += velX;
+                posY += velY;
+                velY += 0.1; // gravity
+                life -= 2;
+                
+                sparkle.style.left = posX + 'px';
+                sparkle.style.top = posY + 'px';
+                sparkle.style.opacity = life / 100;
+                
+                if (life > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    sparkle.remove();
+                }
+            }
+            
+            animate();
+        }
+    </script>
+</body>
+</html>

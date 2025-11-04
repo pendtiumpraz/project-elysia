@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Cursor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            cursor: none;
+            overflow: hidden;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 48px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .emoji-cursor {
+            position: fixed;
+            font-size: 48px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+        
+        .emoji-trail {
+            position: fixed;
+            font-size: 32px;
+            pointer-events: none;
+            z-index: 9998;
+            animation: emoji-fade 1s forwards;
+        }
+        
+        @keyframes emoji-fade {
+            from {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.5) rotate(360deg);
+            }
+        }
+        
+        .emoji-selector {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .emoji-btn {
+            font-size: 40px;
+            width: 80px;
+            height: 80px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .emoji-btn:hover {
+            transform: scale(1.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .emoji-btn.active {
+            background: #f5576c;
+            transform: scale(1.1);
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 120px;
+            opacity: 0.1;
+            user-select: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>😀 Emoji Cursor</h1>
+    
+    <div class="emoji-cursor" id="emojiCursor">😀</div>
+    
+    <div class="emoji-selector">
+        <button class="emoji-btn active" data-emoji="😀">😀</button>
+        <button class="emoji-btn" data-emoji="❤️">❤️</button>
+        <button class="emoji-btn" data-emoji="🔥">🔥</button>
+        <button class="emoji-btn" data-emoji="⭐">⭐</button>
+        <button class="emoji-btn" data-emoji="🎨">🎨</button>
+        <button class="emoji-btn" data-emoji="🚀">🚀</button>
+    </div>
+    
+    <div class="demo-text">HOVER</div>
+    
+    <div class="info">
+        Click the emoji buttons to change cursor!<br>
+        Move around to create trails
+    </div>
+    
+    <script>
+        const emojiCursor = document.getElementById('emojiCursor');
+        const emojiButtons = document.querySelectorAll('.emoji-btn');
+        
+        let currentEmoji = '😀';
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let trailCounter = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Create trail
+            trailCounter++;
+            if (trailCounter % 5 === 0) {
+                createTrail(mouseX, mouseY);
+            }
+        });
+        
+        function animate() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            
+            emojiCursor.style.left = cursorX + 'px';
+            emojiCursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        function createTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'emoji-trail';
+            trail.textContent = currentEmoji;
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            document.body.appendChild(trail);
+            
+            setTimeout(() => trail.remove(), 1000);
+        }
+        
+        emojiButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                emojiButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentEmoji = btn.dataset.emoji;
+                emojiCursor.textContent = currentEmoji;
+            });
+        });
+        
+        document.addEventListener('mousedown', () => {
+            emojiCursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+        });
+        
+        document.addEventListener('mouseup', () => {
+            emojiCursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+    </script>
+</body>
+</html>
