@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mecha Legion - Dashboard</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {font-family: 'Arial', 'Helvetica', sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); min-height: 100vh;}
+        .grid-bg {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px); background-size: 50px 50px; pointer-events: none;}
+        .sidebar {position: fixed; left: 0; top: 0; width: 250px; height: 100vh; background: rgba(0, 0, 0, 0.9); border-right: 2px solid #00ffff; padding: 20px; z-index: 10;}
+        .logo {font-size: 50px; text-align: center; margin-bottom: 10px; filter: drop-shadow(0 0 20px #00ffff);}
+        .user-profile {text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(0, 255, 255, 0.3);}
+        .avatar {width: 80px; height: 80px; background: linear-gradient(145deg, rgba(0, 255, 255, 0.3), rgba(0, 0, 0, 0.8)); border: 2px solid #00ffff; border-radius: 10px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);}
+        .username {color: #00ffff; font-weight: bold; font-size: 18px; margin-bottom: 5px; text-shadow: 0 0 10px #00ffff; letter-spacing: 2px;}
+        .pilot-rank {color: #fff; font-size: 14px;}
+        .nav-menu {list-style: none; padding: 20px 0;}
+        .nav-item {padding: 15px; margin: 5px 0; color: #fff; cursor: pointer; border: 1px solid transparent; transition: all 0.3s; text-transform: uppercase; font-size: 14px; letter-spacing: 1px;}
+        .nav-item:hover, .nav-item.active {background: rgba(0, 255, 255, 0.1); color: #00ffff; border-color: #00ffff; transform: translateX(5px); box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);}
+        .main-content {margin-left: 250px; padding: 30px; position: relative; z-index: 5;}
+        .top-bar {background: rgba(0, 0, 0, 0.8); padding: 20px 30px; border: 1px solid #00ffff; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);}
+        .page-title {font-size: 28px; color: #00ffff; font-weight: bold; text-shadow: 0 0 20px #00ffff; letter-spacing: 3px; text-transform: uppercase;}
+        .stats-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;}
+        .stat-card {background: rgba(0, 0, 0, 0.8); padding: 25px; border: 1px solid rgba(0, 255, 255, 0.5); transition: all 0.3s;}
+        .stat-card:hover {border-color: #00ffff; box-shadow: 0 0 30px rgba(0, 255, 255, 0.5); transform: translateY(-5px);}
+        .stat-icon {font-size: 40px; margin-bottom: 15px;}
+        .stat-label {color: #aaa; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
+        .stat-value {font-size: 32px; font-weight: bold; color: #00ffff; text-shadow: 0 0 10px #00ffff;}
+        .content-grid {display: grid; grid-template-columns: 2fr 1fr; gap: 20px;}
+        .card {background: rgba(0, 0, 0, 0.8); padding: 25px; border: 1px solid rgba(0, 255, 255, 0.5); box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);}
+        .card-title {font-size: 20px; font-weight: bold; color: #00ffff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;}
+        .system-item {padding: 15px; background: rgba(0, 255, 255, 0.05); border-left: 3px solid #00ffff; margin-bottom: 10px;}
+        .system-name {font-weight: bold; color: #00ffff; margin-bottom: 5px;}
+        .system-status {background: rgba(0, 255, 255, 0.2); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 10px;}
+        .system-status-bar {background: #00ffff; height: 100%; box-shadow: 0 0 10px #00ffff; transition: width 0.3s;}
+        .activity-item {padding: 15px; border-bottom: 1px solid rgba(0, 255, 255, 0.2); color: #aaa;}
+        .activity-item:last-child {border-bottom: none;}
+        .activity-time {font-size: 12px; color: #666; margin-top: 5px; font-family: 'Courier New', monospace;}
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="sidebar">
+        <div class="logo">🤖</div>
+        <div class="user-profile">
+            <div class="avatar">⚙️</div>
+            <div class="username">PILOT-001</div>
+            <div class="pilot-rank">[ ACE PILOT ]</div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active">Dashboard</li>
+            <li class="nav-item">Hangar</li>
+            <li class="nav-item">Arsenal</li>
+            <li class="nav-item">Missions</li>
+            <li class="nav-item">Squad</li>
+            <li class="nav-item">Settings</li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <div class="top-bar">
+            <h1 class="page-title">[ MECHA CONTROL ]</h1>
+            <div style="color: #00ffff; font-size: 20px;">🔔 🔍 🚪</div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">⚔️</div><div class="stat-label">Combat Power</div><div class="stat-value">15,247</div></div>
+            <div class="stat-card"><div class="stat-icon">🛡️</div><div class="stat-label">Defense Rating</div><div class="stat-value">12,890</div></div>
+            <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-label">Energy Core</div><div class="stat-value">98%</div></div>
+            <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-label">Missions Won</div><div class="stat-value">234</div></div>
+        </div>
+        
+        <div class="content-grid">
+            <div class="card">
+                <h2 class="card-title">[ System Status ]</h2>
+                <div class="system-item">
+                    <div class="system-name">⚔️ WEAPONS ARRAY</div>
+                    <div style="color: #aaa; font-size: 14px;">All systems operational</div>
+                    <div class="system-status"><div class="system-status-bar" style="width: 100%"></div></div>
+                </div>
+                <div class="system-item">
+                    <div class="system-name">🛡️ SHIELD GENERATOR</div>
+                    <div style="color: #aaa; font-size: 14px;">Regenerating power</div>
+                    <div class="system-status"><div class="system-status-bar" style="width: 85%"></div></div>
+                </div>
+                <div class="system-item">
+                    <div class="system-name">⚡ BOOST THRUSTERS</div>
+                    <div style="color: #aaa; font-size: 14px;">Ready for deployment</div>
+                    <div class="system-status"><div class="system-status-bar" style="width: 95%"></div></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Recent Activity</h2>
+                <div class="activity-item"><div style="color: #00ffff;">🏆 Mission Complete</div><div class="activity-time">> 30 MIN AGO</div></div>
+                <div class="activity-item"><div style="color: #00ffff;">⚙️ Upgraded Systems</div><div class="activity-time">> 2 HOURS AGO</div></div>
+                <div class="activity-item"><div style="color: #00ffff;">🎯 Target Eliminated</div><div class="activity-time">> 1 DAY AGO</div></div>
+                <div class="activity-item"><div style="color: #00ffff;">👥 Squad Formed</div><div class="activity-time">> 2 DAYS AGO</div></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

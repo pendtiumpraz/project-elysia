@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystic Realm - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #2c1654 0%, #4a0e4e 50%, #1a0033 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .mystical-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #9d4edd, transparent);
+            border-radius: 50%;
+            animation: float-particle linear infinite;
+        }
+        
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        .login-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 50px;
+            border-radius: 15px;
+            border: 1px solid rgba(199, 125, 255, 0.5);
+            box-shadow: 0 20px 60px rgba(157, 78, 221, 0.5), inset 0 0 50px rgba(157, 78, 221, 0.1);
+            width: 100%;
+            max-width: 450px;
+            animation: magicReveal 1.5s ease;
+            position: relative;
+            z-index: 10;
+        }
+        
+        @keyframes magicReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.8) rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+        
+        .magic-circle {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border: 2px solid #c77dff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            animation: rotate 10s linear infinite;
+            box-shadow: 0 0 30px rgba(199, 125, 255, 0.5);
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #c77dff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(157, 78, 221, 0.8);
+            font-style: italic;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #e0aaff;
+            margin-bottom: 35px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c77dff;
+            font-weight: bold;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(199, 125, 255, 0.5);
+            border-radius: 10px;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #e0aaff;
+            transition: all 0.3s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #c77dff;
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.5);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(224, 170, 255, 0.5);
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .remember-forgot label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e0aaff;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .remember-forgot a {
+            color: #c77dff;
+            text-decoration: none;
+            font-size: 14px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .remember-forgot a:hover {
+            text-shadow: 0 0 10px #c77dff;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #c77dff, #9d4edd);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.5);
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(157, 78, 221, 0.7);
+            background: linear-gradient(45deg, #e0aaff, #c77dff);
+        }
+        
+        .magic-runes {
+            text-align: center;
+            margin: 30px 0;
+            color: rgba(199, 125, 255, 0.5);
+            font-size: 20px;
+            letter-spacing: 10px;
+        }
+        
+        .signup-link {
+            text-align: center;
+            color: #e0aaff;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .signup-link a {
+            color: #c77dff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .signup-link a:hover {
+            text-shadow: 0 0 10px #c77dff;
+        }
+    </style>
+</head>
+<body>
+    <div class="mystical-particles" id="particles"></div>
+    
+    <div class="login-container">
+        <div class="magic-circle">🔮</div>
+        <h1 class="title">✨ Mystic Realm ✨</h1>
+        <p class="subtitle">Enter the Portal to Magic</p>
+        
+        <form>
+            <div class="form-group">
+                <label for="email">🗡️ Mage Name</label>
+                <input type="text" id="email" placeholder="Enter your mage identity" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">📜 Ancient Password</label>
+                <input type="password" id="password" placeholder="Speak the ancient words" required>
+            </div>
+            
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox">
+                    Remember spell
+                </label>
+                <a href="#">Lost grimoire?</a>
+            </div>
+            
+            <button type="submit" class="login-btn">🔮 Cast Portal Spell</button>
+            
+            <p class="magic-runes">✦ ◆ ✧ ◇ ✦</p>
+            
+            <p class="signup-link">
+                Novice mage? <a href="#">Begin your journey</a>
+            </p>
+        </form>
+    </div>
+    
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 4 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = Math.random() * 5 + 3 + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mecha Legion - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+        
+        .login-container {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 50px;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3), inset 0 0 30px rgba(0, 255, 255, 0.1);
+            width: 100%;
+            max-width: 450px;
+            animation: systemBoot 1s ease;
+            position: relative;
+            z-index: 10;
+        }
+        
+        @keyframes systemBoot {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .logo {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px #00ffff);
+            }
+            50% {
+                filter: drop-shadow(0 0 40px #00ffff);
+            }
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #00ffff;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #00ffff;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            font-size: 14px;
+        }
+        
+        .status-bar {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 10px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            font-family: 'Courier New', monospace;
+            color: #00ffff;
+            font-size: 12px;
+        }
+        
+        .status-bar span {
+            display: block;
+            margin: 3px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00ffff;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            border-radius: 5px;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #00ffff;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(0, 255, 255, 0.5);
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .remember-forgot label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #00ffff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .remember-forgot a {
+            color: #00ffff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .remember-forgot a:hover {
+            text-shadow: 0 0 10px #00ffff;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: #00ffff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            color: rgba(0, 255, 255, 0.5);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .signup-link {
+            text-align: center;
+            color: rgba(0, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        .signup-link a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .signup-link a:hover {
+            text-shadow: 0 0 10px #00ffff;
+        }
+        
+        .corner-accent {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ffff;
+        }
+        
+        .corner-accent.tl {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .corner-accent.tr {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+        
+        .corner-accent.bl {
+            bottom: 10px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+        
+        .corner-accent.br {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-background"></div>
+    
+    <div class="login-container">
+        <div class="corner-accent tl"></div>
+        <div class="corner-accent tr"></div>
+        <div class="corner-accent bl"></div>
+        <div class="corner-accent br"></div>
+        
+        <div class="logo">🤖</div>
+        <h1 class="title">Mecha Legion</h1>
+        <p class="subtitle">[ Pilot Authentication System ]</p>
+        
+        <div class="status-bar">
+            <span>> SYSTEM STATUS: ONLINE</span>
+            <span>> NEURAL LINK: READY</span>
+            <span>> ACCESS LEVEL: PENDING</span>
+        </div>
+        
+        <form>
+            <div class="form-group">
+                <label for="email">[ PILOT ID ]</label>
+                <input type="text" id="email" placeholder="Enter pilot identification" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">[ ACCESS CODE ]</label>
+                <input type="password" id="password" placeholder="Enter security clearance" required>
+            </div>
+            
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox">
+                    Save credentials
+                </label>
+                <a href="#">Reset access?</a>
+            </div>
+            
+            <button type="submit" class="login-btn">⚙️ Deploy Mecha</button>
+            
+            <p class="divider">- - - - - - - - - - - - -</p>
+            
+            <p class="signup-link">
+                New pilot? <a href="#">Register for training</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slice of Life - Landing Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFF8DC 0%, #FFE4E1 50%, #F0E68C 100%);
+            color: #5d4e37;
+            overflow-x: hidden;
+        }
+        
+        .clouds {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 100px;
+            animation: float-cloud linear infinite;
+        }
+        
+        @keyframes float-cloud {
+            from { transform: translateX(-100px); }
+            to { transform: translateX(calc(100vw + 100px)); }
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff7f50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #5d4e37;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #ff7f50;
+            transform: translateY(-2px);
+        }
+        
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 50px 50px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            animation: slideIn 1.2s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .hero-tag {
+            color: #ff7f50;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .hero-title {
+            font-size: 58px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #8b4513;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ff7f50;
+        }
+        
+        .hero-description {
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            color: #6d5d4b;
+        }
+        
+        .daily-activities {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .activity-tag {
+            background: rgba(255, 127, 80, 0.2);
+            color: #ff7f50;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 16px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #ff7f50, #ff6347);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(255, 127, 80, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 127, 80, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #fff;
+            color: #ff7f50;
+            border: 2px solid #ff7f50;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 127, 80, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .cafe-scene {
+            width: 400px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .cafe-icon {
+            font-size: 120px;
+            animation: gentle-bounce 3s ease-in-out infinite;
+        }
+        
+        @keyframes gentle-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .cafe-title {
+            font-size: 28px;
+            color: #8b4513;
+            font-weight: bold;
+        }
+        
+        .features {
+            padding: 100px 50px;
+            background: rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 60px;
+            color: #8b4513;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(255, 127, 80, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #8b4513;
+        }
+        
+        .feature-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #6d5d4b;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 42px;
+            }
+            
+            .daily-activities {
+                justify-content: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .cafe-scene {
+                width: 300px;
+                height: 400px;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds" id="clouds"></div>
+
+    <nav class="navbar">
+        <div class="logo">☕ Daily Life Café</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#stories">Stories</a></li>
+            <li><a href="#community">Community</a></li>
+            <li><a href="#diary">Diary</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero-section" id="home">
+        <div class="hero-content">
+            <div class="hero-tag">🌸 Enjoy the Simple Moments</div>
+            <h1 class="hero-title">Life's Little Treasures</h1>
+            <p class="hero-subtitle">Where Every Day is an Adventure</p>
+            <p class="hero-description">
+                Experience the warmth of everyday life through heartwarming stories, 
+                friendly conversations, and the simple joys that make each day special. 
+                Join us in celebrating the beauty of ordinary moments.
+            </p>
+            <div class="daily-activities">
+                <div class="activity-tag">☕ Coffee Time</div>
+                <div class="activity-tag">📚 Reading</div>
+                <div class="activity-tag">🎨 Hobbies</div>
+                <div class="activity-tag">👥 Friends</div>
+            </div>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Start Your Day</a>
+                <a href="#" class="btn btn-secondary">Read Stories</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="cafe-scene">
+                <div class="cafe-icon">☕</div>
+                <div class="cafe-title">Welcome Home</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="stories">
+        <h2 class="section-title">🌟 Daily Moments 🌟</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🍱</div>
+                <h3 class="feature-title">Delicious Meals</h3>
+                <p class="feature-description">
+                    Share recipes and enjoy homemade cooking with friends and family.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚶</div>
+                <h3 class="feature-title">Peaceful Walks</h3>
+                <p class="feature-description">
+                    Take leisurely strolls through parks and discover neighborhood gems.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3 class="feature-title">Heartfelt Chats</h3>
+                <p class="feature-description">
+                    Connect with others through meaningful conversations and laughter.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const cloudsContainer = document.getElementById('clouds');
+        for (let i = 0; i < 5; i++) {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            const size = Math.random() * 100 + 60;
+            cloud.style.width = size + 'px';
+            cloud.style.height = size * 0.6 + 'px';
+            cloud.style.top = Math.random() * 50 + '%';
+            cloud.style.left = Math.random() * 100 + '%';
+            cloud.style.animationDuration = Math.random() * 30 + 30 + 's';
+            cloud.style.animationDelay = Math.random() * 5 + 's';
+            cloudsContainer.appendChild(cloud);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

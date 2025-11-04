@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Story - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 50%, #FFE5E5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .hearts-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float-heart linear infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes float-heart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 135, 0.3);
+            width: 100%;
+            max-width: 450px;
+            animation: romantic-fade 2s ease;
+            border: 2px solid transparent;
+            position: relative;
+            z-index: 10;
+        }
+        
+        @keyframes romantic-fade {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .love-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .heart-icon {
+            font-size: 80px;
+            margin-bottom: 15px;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10%, 30% {
+                transform: scale(1.1);
+            }
+            20%, 40% {
+                transform: scale(1);
+            }
+        }
+        
+        .love-badge {
+            display: inline-block;
+            background: rgba(255, 105, 135, 0.2);
+            color: #ff6987;
+            padding: 8px 25px;
+            border-radius: 50px;
+            border: 2px solid #ff6987;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff6987;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        .subtitle {
+            color: #d97b94;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .love-message {
+            background: rgba(255, 154, 158, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .love-message p {
+            color: #8b5a5a;
+            font-size: 14px;
+            line-height: 1.6;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5d3a3a;
+            font-weight: bold;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #FFB6C1;
+            border-radius: 20px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6987;
+            box-shadow: 0 0 0 3px rgba(255, 105, 135, 0.1);
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .remember-forgot label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8b5a5a;
+            cursor: pointer;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .remember-forgot a {
+            color: #ff6987;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .remember-forgot a:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #ff6987, #ff9aa2);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(255, 105, 135, 0.4);
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 105, 135, 0.6);
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            color: #d97b94;
+            font-size: 20px;
+        }
+        
+        .signup-link {
+            text-align: center;
+            color: #8b5a5a;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .signup-link a {
+            color: #ff6987;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="hearts"></div>
+    
+    <div class="login-container">
+        <div class="love-header">
+            <div class="heart-icon">💗</div>
+            <div class="love-badge">💕 True Love</div>
+            <h1 class="title">Love Story</h1>
+            <p class="subtitle">Welcome back, sweetheart</p>
+        </div>
+        
+        <div class="love-message">
+            <p>💖 Your heart has been waiting 💖<br>
+            Let's continue your romantic journey together!</p>
+        </div>
+        
+        <form>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="text" id="email" placeholder="your@email.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox">
+                    Remember me
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="login-btn">💕 Sign In with Love</button>
+            
+            <p class="divider">♡ ❤ ♡</p>
+            
+            <p class="signup-link">
+                New here? <a href="#">Start your love story</a>
+            </p>
+        </form>
+    </div>
+    
+    <script>
+        const heartsContainer = document.getElementById('hearts');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '💖';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+            heart.style.animationDuration = Math.random() * 5 + 5 + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartsContainer.appendChild(heart);
+        }
+    </script>
+</body>
+</html>
