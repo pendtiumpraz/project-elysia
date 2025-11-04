@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mosaic Tiles</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {background: #000; overflow: hidden;}
+        canvas {display: block;}
+        .content {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; z-index: 10; mix-blend-mode: difference;}
+        h1 {font-size: 72px;}
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content"><h1>🔲 MOSAIC</h1></div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const tileSize = 40;
+        const cols = Math.ceil(canvas.width / tileSize);
+        const rows = Math.ceil(canvas.height / tileSize);
+        function animate() {
+            for (let i = 0; i < 5; i++) {
+                const x = Math.floor(Math.random() * cols) * tileSize;
+                const y = Math.floor(Math.random() * rows) * tileSize;
+                ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 50%)`;
+                ctx.fillRect(x, y, tileSize, tileSize);
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

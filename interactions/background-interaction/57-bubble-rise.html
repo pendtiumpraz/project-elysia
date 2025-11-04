@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Rise</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {background: linear-gradient(180deg, #001a33, #003366); overflow: hidden;}
+        canvas {display: block;}
+        .content {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; z-index: 10;}
+        h1 {font-size: 72px; text-shadow: 0 0 30px #00ffff;}
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content"><h1>🫧 BUBBLES</h1></div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const bubbles = [];
+        function createBubble() {
+            bubbles.push({
+                x: Math.random() * canvas.width,
+                y: canvas.height + 50,
+                radius: Math.random() * 30 + 10,
+                speed: Math.random() * 2 + 1,
+                wobble: Math.random() * 0.05
+            });
+        }
+        setInterval(createBubble, 200);
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 26, 51, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let i = bubbles.length - 1; i >= 0; i--) {
+                const b = bubbles[i];
+                b.y -= b.speed;
+                b.x += Math.sin(b.y * b.wobble) * 2;
+                const gradient = ctx.createRadialGradient(b.x - b.radius / 3, b.y - b.radius / 3, 0, b.x, b.y, b.radius);
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+                gradient.addColorStop(0.5, 'rgba(100, 200, 255, 0.4)');
+                gradient.addColorStop(1, 'rgba(0, 100, 200, 0.2)');
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.stroke();
+                if (b.y < -50) bubbles.splice(i, 1);
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

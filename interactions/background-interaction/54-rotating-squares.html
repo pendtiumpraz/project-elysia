@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Squares</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {background: #000; overflow: hidden;}
+        canvas {display: block;}
+        .content {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; z-index: 10;}
+        h1 {font-size: 72px; text-shadow: 0 0 30px #ff00ff;}
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content"><h1>⬛ ROTATE</h1></div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        let angle = 0;
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < 10; i++) {
+                const size = 50 + i * 30;
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(angle * (i % 2 === 0 ? 1 : -1) + i * 0.1);
+                ctx.strokeStyle = `hsl(${(angle * 50 + i * 36) % 360}, 100%, 50%)`;
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = ctx.strokeStyle;
+                ctx.strokeRect(-size / 2, -size / 2, size, size);
+                ctx.restore();
+            }
+            angle += 0.02;
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

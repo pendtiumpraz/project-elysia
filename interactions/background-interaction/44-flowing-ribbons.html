@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowing Ribbons</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {background: #000; overflow: hidden; font-family: 'Arial', sans-serif;}
+        canvas {display: block;}
+        .content {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; z-index: 10;}
+        h1 {font-size: 72px; text-shadow: 0 0 30px #00ffff;}
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content"><h1>🎀 RIBBONS</h1></div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let time = 0;
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                for (let x = 0; x < canvas.width; x += 10) {
+                    const y = canvas.height / 2 + Math.sin(x * 0.01 + time + i) * 100 + i * 40;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = `hsl(${(time * 10 + i * 60) % 360}, 100%, 50%)`;
+                ctx.lineWidth = 10;
+                ctx.stroke();
+            }
+            time += 0.05;
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

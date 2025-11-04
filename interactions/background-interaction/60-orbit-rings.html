@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbit Rings</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {background: #000; overflow: hidden;}
+        canvas {display: block;}
+        .content {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; z-index: 10;}
+        h1 {font-size: 72px; text-shadow: 0 0 30px #00ffff;}
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content"><h1>🪐 ORBIT</h1></div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const rings = [];
+        for (let i = 0; i < 8; i++) {
+            rings.push({
+                radius: 50 + i * 50,
+                angle: Math.random() * Math.PI * 2,
+                speed: 0.01 + Math.random() * 0.02,
+                hue: i * 45
+            });
+        }
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            rings.forEach(ring => {
+                ring.angle += ring.speed;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, ring.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `hsl(${ring.hue}, 100%, 50%)`;
+                ctx.lineWidth = 2;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = ctx.strokeStyle;
+                ctx.stroke();
+                const x = centerX + Math.cos(ring.angle) * ring.radius;
+                const y = centerY + Math.sin(ring.angle) * ring.radius;
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fillStyle = `hsl(${ring.hue}, 100%, 50%)`;
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

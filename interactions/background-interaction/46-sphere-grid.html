@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sphere Grid</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {background: #000; overflow: hidden; font-family: 'Arial', sans-serif;}
+        canvas {display: block;}
+        .content {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #00ffff; z-index: 10;}
+        h1 {font-size: 72px; text-shadow: 0 0 30px #00ffff;}
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content"><h1>🔵 SPHERE</h1></div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        let angle = 0;
+        const points = [];
+        for (let lat = 0; lat < Math.PI; lat += 0.3) {
+            for (let lon = 0; lon < Math.PI * 2; lon += 0.3) {
+                points.push({lat, lon});
+            }
+        }
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            points.forEach(p => {
+                const radius = 200;
+                const x = radius * Math.sin(p.lat) * Math.cos(p.lon + angle);
+                const y = radius * Math.sin(p.lat) * Math.sin(p.lon + angle);
+                const z = radius * Math.cos(p.lat);
+                const scale = 300 / (300 + z);
+                const x2d = centerX + x * scale;
+                const y2d = centerY + y * scale;
+                ctx.beginPath();
+                ctx.arc(x2d, y2d, 2 * scale, 0, Math.PI * 2);
+                ctx.fillStyle = `hsl(${(p.lon * 180 / Math.PI + angle * 50) % 360}, 100%, 50%)`;
+                ctx.fill();
+            });
+            angle += 0.01;
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
