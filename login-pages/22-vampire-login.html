@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vampire Castle - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 50%, #2a0a0a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* FULL MOON */
+        .moon {
+            position: fixed;
+            top: 50px;
+            right: 100px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at 30% 30%, #fff, #e0e0e0);
+            border-radius: 50%;
+            box-shadow: 0 0 100px rgba(255, 255, 255, 0.5);
+            animation: moon-glow 4s ease-in-out infinite;
+        }
+        
+        @keyframes moon-glow {
+            0%, 100% {box-shadow: 0 0 100px rgba(255, 255, 255, 0.5);}
+            50% {box-shadow: 0 0 150px rgba(255, 255, 255, 0.8);}
+        }
+        
+        /* FLYING BATS */
+        .bats {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .bat {
+            position: absolute;
+            font-size: 40px;
+            animation: bat-fly linear infinite;
+        }
+        
+        @keyframes bat-fly {
+            0% {
+                left: -50px;
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-50px);
+            }
+            100% {
+                left: 110%;
+                transform: translateY(0);
+            }
+        }
+        
+        /* GOTHIC CASTLE GATE */
+        .castle-gate {
+            background: linear-gradient(180deg, #1a0000 0%, #0a0000 100%);
+            width: 500px;
+            border: 5px solid #8B0000;
+            box-shadow: 0 30px 80px rgba(139, 0, 0, 0.8), inset 0 0 100px rgba(139, 0, 0, 0.2);
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 10% 100%, 0 85%);
+        }
+        
+        .gate-arch {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 100px;
+            background: #1a0000;
+            border: 5px solid #8B0000;
+            border-bottom: none;
+            border-radius: 150px 150px 0 0;
+        }
+        
+        .gate-top {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 3px solid #8B0000;
+            background: rgba(139, 0, 0, 0.1);
+        }
+        
+        .coffin-icon {
+            font-size: 80px;
+            animation: coffin-open 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px #8B0000);
+        }
+        
+        @keyframes coffin-open {
+            0%, 100% {transform: scale(1) rotate(0deg);}
+            50% {transform: scale(1.1) rotate(-5deg);}
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: bold;
+            color: #8B0000;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px #8B0000, 3px 3px 0 #000;
+            letter-spacing: 5px;
+            font-style: italic;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #c00;
+            margin-bottom: 30px;
+            font-size: 16px;
+            font-style: italic;
+        }
+        
+        .blood-type-selector {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        
+        .blood-btn {
+            background: rgba(139, 0, 0, 0.3);
+            border: 2px solid #8B0000;
+            color: #c00;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .blood-btn:hover {
+            background: #8B0000;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.8);
+        }
+        
+        .transformation-timer {
+            background: rgba(139, 0, 0, 0.2);
+            border: 2px dashed #8B0000;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #c00;
+            font-size: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #8B0000;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #8B0000;
+            background: rgba(0, 0, 0, 0.7);
+            color: #c00;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+            border-color: #c00;
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(200, 0, 0, 0.5);
+        }
+        
+        .fangs-decoration {
+            text-align: center;
+            font-size: 60px;
+            margin: 20px 0;
+            animation: fangs-grow 2s ease-in-out infinite;
+        }
+        
+        @keyframes fangs-grow {
+            0%, 100% {transform: scaleY(1);}
+            50% {transform: scaleY(1.2);}
+        }
+        
+        .bite-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #8B0000, #c00);
+            color: #fff;
+            border: 3px solid #000;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.5);
+            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+        }
+        
+        .bite-btn:hover {
+            background: linear-gradient(135deg, #c00, #ff0000);
+            box-shadow: 0 15px 40px rgba(139, 0, 0, 0.8);
+            transform: translateY(-3px);
+        }
+        
+        .immortal-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #8B0000;
+            font-size: 14px;
+            font-style: italic;
+        }
+        
+        .immortal-link a {
+            color: #c00;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px solid #c00;
+        }
+        
+        .candles {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 40px;
+            animation: candle-flicker 1s infinite;
+        }
+        
+        @keyframes candle-flicker {
+            0%, 100% {opacity: 1;}
+            50% {opacity: 0.7;}
+        }
+    </style>
+</head>
+<body>
+    <div class="moon"></div>
+    <div class="bats" id="bats"></div>
+    
+    <div class="castle-gate">
+        <div class="gate-arch"></div>
+        <div class="candles">🕯️🕯️</div>
+        
+        <div class="gate-top">
+            <div class="coffin-icon">⚰️</div>
+        </div>
+        
+        <div class="content">
+            <h1 class="title">VAMPIRE CASTLE</h1>
+            <p class="subtitle">Enter the Realm of Eternal Night</p>
+            
+            <div class="blood-type-selector">
+                <button class="blood-btn" type="button">A+</button>
+                <button class="blood-btn" type="button">B+</button>
+                <button class="blood-btn" type="button">O+</button>
+                <button class="blood-btn" type="button">AB+</button>
+            </div>
+            
+            <div class="transformation-timer">
+                🌙 MIDNIGHT COUNTDOWN: <span id="midnight">00:00:00</span>
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <label>🦇 Vampire Name</label>
+                    <input type="text" placeholder="Your immortal identity" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔒 Crypt Password</label>
+                    <input type="password" placeholder="Forbidden castle code" required>
+                </div>
+                
+                <div class="fangs-decoration">🧛</div>
+                
+                <button type="submit" class="bite-btn">🩸 ENTER CASTLE 🩸</button>
+                
+                <p class="immortal-link">
+                    Mortal seeking immortality? <a href="#">Request transformation...</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const batsContainer = document.getElementById('bats');
+        for (let i = 0; i < 10; i++) {
+            const bat = document.createElement('div');
+            bat.className = 'bat';
+            bat.textContent = '🦇';
+            bat.style.top = Math.random() * 70 + '%';
+            bat.style.animationDuration = Math.random() * 10 + 5 + 's';
+            bat.style.animationDelay = Math.random() * 5 + 's';
+            batsContainer.appendChild(bat);
+        }
+        
+        function updateMidnight() {
+            const now = new Date();
+            const midnight = new Date(now);
+            midnight.setHours(24, 0, 0, 0);
+            const diff = midnight - now;
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById('midnight').textContent = 
+                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+        setInterval(updateMidnight, 1000);
+        updateMidnight();
+    </script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Travel - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #000033 0%, #000066 50%, #0000cc 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* TIME RIFT PARTICLES */
+        .time-rift {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #00ffff, transparent);
+            border-radius: 50%;
+            animation: particle-flow linear infinite;
+        }
+        
+        @keyframes particle-flow {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 0;
+            }
+            10% {opacity: 1;}
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* CLOCK FACE DESIGN */
+        .time-machine {
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #001a4d 0%, #000033 70%, #000 100%);
+            border: 15px solid #00ffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 100px rgba(0, 255, 255, 0.8), inset 0 0 100px rgba(0, 255, 255, 0.2);
+            animation: time-spiral 30s linear infinite;
+        }
+        
+        @keyframes time-spiral {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+        
+        .clock-numbers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .clock-number {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            color: #00ffff;
+            font-size: 32px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 20px #00ffff;
+        }
+        
+        .time-login {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 50px;
+            border: 5px solid #00ffff;
+            border-radius: 20px;
+            width: 450px;
+            z-index: 10;
+            animation: counter-spiral 30s linear infinite;
+            box-shadow: 0 0 80px rgba(0, 255, 255, 0.6);
+        }
+        
+        @keyframes counter-spiral {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(-360deg);}
+        }
+        
+        .flux-capacitor {
+            text-align: center;
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: flux-pulse 1s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px #00ffff);
+        }
+        
+        @keyframes flux-pulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px #00ffff);
+            }
+            50% {
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 50px #00ffff);
+            }
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #00ffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px #00ffff;
+            letter-spacing: 5px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #0099ff;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .chronometer {
+            background: rgba(0, 255, 255, 0.1);
+            border: 3px solid #00ffff;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .chrono-display {
+            color: #00ffff;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 0 0 20px #00ffff;
+            margin-bottom: 10px;
+        }
+        
+        .chrono-label {
+            color: #0099ff;
+            font-size: 12px;
+        }
+        
+        .year-selector {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+        
+        .year-btn {
+            background: rgba(0, 255, 255, 0.2);
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .year-btn:hover {
+            background: #00ffff;
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00ffff;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #00ffff;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #00ffff;
+            background: rgba(0, 255, 255, 0.05);
+            color: #00ffff;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(0, 255, 255, 0.5);
+        }
+        
+        .paradox-warning {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px dashed #ff0000;
+            padding: 10px;
+            margin: 20px 0;
+            color: #ff6666;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .travel-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #00ffff, #0066ff);
+            color: #000;
+            border: 3px solid #00ffff;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .travel-btn::before {
+            content: '⚡';
+            position: absolute;
+            font-size: 40px;
+            color: #ffff00;
+            animation: electric-surge 2s linear infinite;
+        }
+        
+        @keyframes electric-surge {
+            0% {
+                left: -60px;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                left: 110%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        .travel-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.8);
+        }
+        
+        .timeline-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #0099ff;
+            font-size: 14px;
+        }
+        
+        .timeline-link a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px solid #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="time-rift" id="rift"></div>
+    
+    <div class="time-machine">
+        <div class="clock-numbers" id="clock"></div>
+        
+        <div class="time-login">
+            <div class="flux-capacitor">🕰️</div>
+            
+            <h1 class="title">TIME MACHINE</h1>
+            <p class="subtitle">Temporal Coordinates Access</p>
+            
+            <div class="chronometer">
+                <div class="chrono-display" id="timeDisplay">2024-01-01</div>
+                <div class="chrono-label">CURRENT TIMELINE</div>
+            </div>
+            
+            <div class="year-selector">
+                <button class="year-btn" type="button">PAST</button>
+                <button class="year-btn" type="button">PRESENT</button>
+                <button class="year-btn" type="button">FUTURE</button>
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <label>🕰️ Traveler ID</label>
+                    <input type="text" placeholder="Enter temporal coordinates" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔒 Time Lock</label>
+                    <input type="password" placeholder="Chronological password" required>
+                </div>
+                
+                <div class="paradox-warning">
+                    ⚠️ WARNING: Time paradoxes may occur
+                </div>
+                
+                <button type="submit" class="travel-btn">⚡ INITIATE TIME JUMP ⚡</button>
+                
+                <p class="timeline-link">
+                    Lost in time? <a href="#">Return to present...</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Time rift particles
+        const riftContainer = document.getElementById('rift');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 5 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = '50%';
+            particle.style.top = '50%';
+            particle.style.setProperty('--tx', (Math.random() - 0.5) * 1000 + 'px');
+            particle.style.setProperty('--ty', (Math.random() - 0.5) * 1000 + 'px');
+            particle.style.animationDuration = Math.random() * 3 + 2 + 's';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            riftContainer.appendChild(particle);
+        }
+        
+        // Clock numbers
+        const clockContainer = document.getElementById('clock');
+        for (let i = 1; i <= 12; i++) {
+            const number = document.createElement('div');
+            number.className = 'clock-number';
+            number.textContent = i;
+            const angle = (i * 30 - 90) * Math.PI / 180;
+            const radius = 250;
+            number.style.left = `calc(50% + ${radius * Math.cos(angle)}px - 25px)`;
+            number.style.top = `calc(50% + ${radius * Math.sin(angle)}px - 25px)`;
+            clockContainer.appendChild(number);
+        }
+        
+        // Update time display
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('timeDisplay').textContent = now.toISOString().split('T')[0];
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steampunk Gears - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #3e2723 0%, #5d4037 50%, #6d4c41 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* ANIMATED GEARS BACKGROUND */
+        .gears-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .gear {
+            position: absolute;
+            border-radius: 50%;
+            border: 8px solid #8B4513;
+            background: radial-gradient(circle, #CD7F32 0%, #B87333 100%);
+            animation: gear-rotate linear infinite;
+        }
+        
+        .gear::before {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 30%;
+            background: #3e2723;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .gear-1 {
+            width: 150px;
+            height: 150px;
+            top: 10%;
+            left: 5%;
+            animation-duration: 8s;
+        }
+        
+        .gear-2 {
+            width: 100px;
+            height: 100px;
+            top: 60%;
+            right: 10%;
+            animation-duration: 5s;
+            animation-direction: reverse;
+        }
+        
+        .gear-3 {
+            width: 80px;
+            height: 80px;
+            bottom: 15%;
+            left: 15%;
+            animation-duration: 6s;
+        }
+        
+        @keyframes gear-rotate {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+        
+        /* STEAM PIPES */
+        .steam-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            pointer-events: none;
+        }
+        
+        .steam {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent);
+            border-radius: 50%;
+            animation: steam-rise linear infinite;
+        }
+        
+        @keyframes steam-rise {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {opacity: 0.8;}
+            100% {
+                transform: translateY(-200px) scale(2);
+                opacity: 0;
+            }
+        }
+        
+        /* MECHANICAL PANEL */
+        .steampunk-panel {
+            background: linear-gradient(145deg, #CD7F32, #B87333);
+            padding: 0;
+            width: 550px;
+            border: 12px solid #8B4513;
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .rivets {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #3e2723, #8B4513);
+            border-radius: 50%;
+            border: 2px solid #8B4513;
+        }
+        
+        .rivet-tl {top: 10px; left: 10px;}
+        .rivet-tr {top: 10px; right: 10px;}
+        .rivet-bl {bottom: 10px; left: 10px;}
+        .rivet-br {bottom: 10px; right: 10px;}
+        
+        .panel-header {
+            background: linear-gradient(180deg, #8B4513 0%, #654321 100%);
+            padding: 30px;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 5px solid #3e2723;
+            position: relative;
+        }
+        
+        .pressure-gauges {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        
+        .gauge {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 5px solid #3e2723;
+            background: radial-gradient(circle, #f5deb3 0%, #d2b48c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            animation: gauge-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes gauge-pulse {
+            0%, 100% {transform: scale(1);}
+            50% {transform: scale(1.05);}
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #f5deb3;
+            text-shadow: 3px 3px 0 #3e2723;
+            letter-spacing: 5px;
+            font-family: 'Impact', sans-serif;
+        }
+        
+        .content {
+            padding: 40px;
+            background: linear-gradient(180deg, #8B4513, #654321);
+        }
+        
+        .clockwork-timer {
+            text-align: center;
+            font-size: 48px;
+            color: #f5deb3;
+            margin-bottom: 25px;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 20px #FFD700;
+        }
+        
+        .valve-switches {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+        
+        .valve {
+            font-size: 40px;
+            animation: valve-turn 3s ease-in-out infinite;
+        }
+        
+        @keyframes valve-turn {
+            0%, 100% {transform: rotate(0deg);}
+            50% {transform: rotate(90deg);}
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f5deb3;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            padding-left: 50px;
+            border: 3px solid #3e2723;
+            background: rgba(245, 222, 179, 0.9);
+            color: #3e2723;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        .input-dial {
+            position: absolute;
+            left: 15px;
+            top: 45px;
+            font-size: 24px;
+            animation: dial-spin 4s linear infinite;
+        }
+        
+        @keyframes dial-spin {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+        
+        .lever-divider {
+            text-align: center;
+            font-size: 60px;
+            margin: 25px 0;
+        }
+        
+        .activate-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5deb3, #d2b48c);
+            color: #3e2723;
+            border: 5px solid #3e2723;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .activate-btn::before {
+            content: '⚙️';
+            position: absolute;
+            font-size: 30px;
+            animation: gear-move 3s linear infinite;
+        }
+        
+        @keyframes gear-move {
+            0% {
+                left: -50px;
+                transform: rotate(0deg);
+            }
+            100% {
+                left: 110%;
+                transform: rotate(720deg);
+            }
+        }
+        
+        .activate-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+        }
+        
+        .workshop-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #f5deb3;
+            font-size: 14px;
+        }
+        
+        .workshop-link a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 2px solid #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="gears-bg">
+        <div class="gear gear-1"></div>
+        <div class="gear gear-2"></div>
+        <div class="gear gear-3"></div>
+    </div>
+    <div class="steam-container" id="steam"></div>
+    
+    <div class="steampunk-panel">
+        <div class="rivets rivet-tl"></div>
+        <div class="rivets rivet-tr"></div>
+        <div class="rivets rivet-bl"></div>
+        <div class="rivets rivet-br"></div>
+        
+        <div class="panel-header">
+            <div class="pressure-gauges">
+                <div class="gauge">⚙️</div>
+                <div class="gauge">🔧</div>
+                <div class="gauge">⚡</div>
+            </div>
+            <h1 class="title">STEAMPUNK</h1>
+        </div>
+        
+        <div class="content">
+            <div class="clockwork-timer" id="timer">12:00:00</div>
+            
+            <div class="valve-switches">
+                <div class="valve">🔩</div>
+                <div class="valve">🔧</div>
+                <div class="valve">🔩</div>
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <label>⚙️ Engineer ID</label>
+                    <div class="input-dial">⚙️</div>
+                    <input type="text" placeholder="Identification code" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔒 Vault Code</label>
+                    <div class="input-dial">⚙️</div>
+                    <input type="password" placeholder="Security mechanism" required>
+                </div>
+                
+                <div class="lever-divider">🕹️</div>
+                
+                <button type="submit" class="activate-btn">⚡ ACTIVATE MACHINERY ⚡</button>
+                
+                <p class="workshop-link">
+                    Join the workshop? <a href="#">Apply for apprenticeship</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const steamContainer = document.getElementById('steam');
+        for (let i = 0; i < 10; i++) {
+            const steam = document.createElement('div');
+            steam.className = 'steam';
+            steam.style.width = Math.random() * 40 + 20 + 'px';
+            steam.style.height = steam.style.width;
+            steam.style.left = Math.random() * 100 + '%';
+            steam.style.animationDuration = Math.random() * 4 + 3 + 's';
+            steam.style.animationDelay = Math.random() * 3 + 's';
+            steamContainer.appendChild(steam);
+        }
+        
+        setInterval(() => {
+            const time = new Date().toLocaleTimeString();
+            document.getElementById('timer').textContent = time;
+        }, 1000);
+    </script>
+</body>
+</html>
