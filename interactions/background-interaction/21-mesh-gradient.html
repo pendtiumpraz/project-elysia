@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesh Gradient</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+            filter: blur(100px);
+        }
+        
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 96px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>🎨 MESH</h1>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const blobs = [
+            {x: 200, y: 200, vx: 2, vy: 1, color: '#667eea'},
+            {x: 600, y: 300, vx: -1.5, vy: 2, color: '#f093fb'},
+            {x: 400, y: 500, vx: 1.5, vy: -1.5, color: '#4facfe'},
+            {x: 800, y: 200, vx: -2, vy: 1.5, color: '#43e97b'}
+        ];
+        
+        function animate() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            blobs.forEach(blob => {
+                blob.x += blob.vx;
+                blob.y += blob.vy;
+                
+                if (blob.x < 0 || blob.x > canvas.width) blob.vx *= -1;
+                if (blob.y < 0 || blob.y > canvas.height) blob.vy *= -1;
+                
+                const gradient = ctx.createRadialGradient(blob.x, blob.y, 0, blob.x, blob.y, 300);
+                gradient.addColorStop(0, blob.color);
+                gradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

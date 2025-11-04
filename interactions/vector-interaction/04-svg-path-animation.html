@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Path Animation</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+        }
+        
+        svg {
+            width: 600px;
+            height: 600px;
+        }
+        
+        .path-line {
+            fill: none;
+            stroke: #00ffff;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 5 5;
+            animation: dash 20s linear infinite;
+        }
+        
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -100;
+            }
+        }
+        
+        .moving-circle {
+            fill: #ff0080;
+            filter: drop-shadow(0 0 20px #ff0080);
+            animation: move-along-path 5s ease-in-out infinite;
+        }
+        
+        @keyframes move-along-path {
+            0% {offset-distance: 0%;}
+            100% {offset-distance: 100%;}
+        }
+    </style>
+</head>
+<body>
+    <svg viewBox="0 0 300 300">
+        <path id="curvePath" class="path-line" d="M50,150 Q150,50 250,150 T450,150"/>
+        <circle class="moving-circle" r="10">
+            <animateMotion dur="5s" repeatCount="indefinite">
+                <mpath href="#curvePath"/>
+            </animateMotion>
+        </circle>
+    </svg>
+</body>
+</html>

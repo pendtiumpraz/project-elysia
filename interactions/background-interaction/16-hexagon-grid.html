@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexagon Grid</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 72px;
+            text-shadow: 0 0 30px #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>⬡ HEXAGONS</h1>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const hexSize = 30;
+        const hexagons = [];
+        
+        function drawHexagon(x, y, size, color, alpha) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI / 3) * i;
+                const hx = x + size * Math.cos(angle);
+                const hy = y + size * Math.sin(angle);
+                if (i === 0) ctx.moveTo(hx, hy);
+                else ctx.lineTo(hx, hy);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = `rgba(0, 255, 255, ${alpha})`;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+        
+        for (let y = 0; y < canvas.height + hexSize * 2; y += hexSize * 1.75) {
+            for (let x = 0; x < canvas.width + hexSize * 2; x += hexSize * 1.5) {
+                const offset = (Math.floor(y / (hexSize * 1.75)) % 2) * hexSize * 0.75;
+                hexagons.push({
+                    x: x + offset,
+                    y: y,
+                    alpha: Math.random() * 0.5
+                });
+            }
+        }
+        
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            hexagons.forEach(hex => {
+                hex.alpha += (Math.random() - 0.5) * 0.02;
+                hex.alpha = Math.max(0.1, Math.min(0.8, hex.alpha));
+                drawHexagon(hex.x, hex.y, hexSize, '#00ffff', hex.alpha);
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

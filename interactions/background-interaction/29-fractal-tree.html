@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fractal Tree</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(180deg, #1a1a2e, #0f3460);
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .content {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 48px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>🌳 Fractal Tree</h1>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let angle = 0;
+        
+        function drawBranch(x, y, length, angle, depth) {
+            if (depth === 0) return;
+            
+            const endX = x + Math.cos(angle) * length;
+            const endY = y + Math.sin(angle) * length;
+            
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(endX, endY);
+            const hue = (depth * 30) % 360;
+            ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+            ctx.lineWidth = depth;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = `hsl(${hue}, 100%, 50%)`;
+            ctx.stroke();
+            
+            drawBranch(endX, endY, length * 0.7, angle - 0.5, depth - 1);
+            drawBranch(endX, endY, length * 0.7, angle + 0.5, depth - 1);
+        }
+        
+        function animate() {
+            ctx.fillStyle = 'rgba(26, 26, 46, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            drawBranch(canvas.width / 2, canvas.height, 100, -Math.PI / 2 + Math.sin(angle) * 0.2, 10);
+            
+            angle += 0.01;
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

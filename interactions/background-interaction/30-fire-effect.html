@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Effect</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #ff6600;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 96px;
+            text-shadow: 0 0 40px #ff6600;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>🔥 FIRE</h1>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        class Flame {
+            constructor() {
+                this.x = canvas.width / 2 + (Math.random() - 0.5) * 200;
+                this.y = canvas.height;
+                this.vy = -Math.random() * 3 - 2;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 20 + 10;
+                this.life = 1;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= 0.01;
+                this.size *= 0.98;
+            }
+            
+            draw() {
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+                
+                if (this.life > 0.7) {
+                    gradient.addColorStop(0, `rgba(255, 255, 100, ${this.life})`);
+                    gradient.addColorStop(0.5, `rgba(255, 100, 0, ${this.life})`);
+                    gradient.addColorStop(1, 'transparent');
+                } else {
+                    gradient.addColorStop(0, `rgba(255, 100, 0, ${this.life})`);
+                    gradient.addColorStop(0.5, `rgba(255, 0, 0, ${this.life})`);
+                    gradient.addColorStop(1, 'transparent');
+                }
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(this.x - this.size, this.y - this.size, this.size * 2, this.size * 2);
+            }
+        }
+        
+        const flames = [];
+        
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 5; i++) {
+                flames.push(new Flame());
+            }
+            
+            for (let i = flames.length - 1; i >= 0; i--) {
+                flames[i].update();
+                flames[i].draw();
+                
+                if (flames[i].life <= 0) {
+                    flames.splice(i, 1);
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

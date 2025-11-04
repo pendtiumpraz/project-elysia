@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireflies Background</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0a1f0a, #1a3a1a);
+            overflow: hidden;
+        }
+        
+        .firefly {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #ffff00;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffff00, 0 0 40px #ffff00;
+            animation: firefly-float ease-in-out infinite;
+        }
+        
+        @keyframes firefly-float {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translate(30px, -30px);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-20px, 20px);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate(40px, 10px);
+                opacity: 1;
+            }
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            color: #90EE90;
+        }
+        
+        h1 {
+            font-size: 72px;
+            text-shadow: 0 0 20px #90EE90;
+        }
+    </style>
+</head>
+<body>
+    <div id="fireflies"></div>
+    
+    <div class="content">
+        <h1>✨ Fireflies</h1>
+    </div>
+    
+    <script>
+        const container = document.getElementById('fireflies');
+        
+        for (let i = 0; i < 40; i++) {
+            const firefly = document.createElement('div');
+            firefly.className = 'firefly';
+            firefly.style.left = Math.random() * 100 + '%';
+            firefly.style.top = Math.random() * 100 + '%';
+            firefly.style.animationDuration = Math.random() * 5 + 3 + 's';
+            firefly.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(firefly);
+        }
+    </script>
+</body>
+</html>

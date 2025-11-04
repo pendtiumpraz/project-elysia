@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glitch Art</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .glitch-layer {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-block {
+            position: absolute;
+            background: rgba(255, 0, 0, 0.3);
+            animation: glitch-move 0.2s infinite;
+        }
+        
+        @keyframes glitch-move {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            75% {
+                transform: translateX(5px);
+            }
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 96px;
+            color: #fff;
+            text-shadow: 
+                -2px 0 #f00,
+                2px 0 #0ff;
+            animation: glitch-text 0.3s infinite;
+        }
+        
+        @keyframes glitch-text {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            33% {
+                transform: translateX(-2px) skew(-2deg);
+            }
+            66% {
+                transform: translateX(2px) skew(2deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glitch-layer" id="glitchLayer"></div>
+    
+    <div class="content">
+        <h1>⚠️ GLITCH</h1>
+    </div>
+    
+    <script>
+        const glitchLayer = document.getElementById('glitchLayer');
+        
+        function createGlitch() {
+            const block = document.createElement('div');
+            block.className = 'glitch-block';
+            block.style.width = Math.random() * 200 + 50 + 'px';
+            block.style.height = Math.random() * 10 + 2 + 'px';
+            block.style.left = Math.random() * 100 + '%';
+            block.style.top = Math.random() * 100 + '%';
+            
+            const colors = ['rgba(255, 0, 0, 0.3)', 'rgba(0, 255, 255, 0.3)', 'rgba(0, 255, 0, 0.3)'];
+            block.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            glitchLayer.appendChild(block);
+            
+            setTimeout(() => block.remove(), 200);
+        }
+        
+        setInterval(createGlitch, 50);
+    </script>
+</body>
+</html>

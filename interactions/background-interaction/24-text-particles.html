@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Particles</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const text = 'ELYSIA';
+        ctx.font = 'bold 200px Arial';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const particles = [];
+        
+        for (let y = 0; y < imageData.height; y += 4) {
+            for (let x = 0; x < imageData.width; x += 4) {
+                const index = (y * imageData.width + x) * 4;
+                const alpha = imageData.data[index + 3];
+                
+                if (alpha > 128) {
+                    particles.push({
+                        x: x,
+                        y: y,
+                        targetX: x,
+                        targetY: y,
+                        size: 2,
+                        color: `hsl(${Math.random() * 60 + 200}, 100%, 50%)`
+                    });
+                }
+            }
+        }
+        
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                const dx = mouseX - p.x;
+                const dy = mouseY - p.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 100) {
+                    const force = (100 - distance) / 100;
+                    p.x -= dx * force * 0.1;
+                    p.y -= dy * force * 0.1;
+                }
+                
+                p.x += (p.targetX - p.x) * 0.05;
+                p.y += (p.targetY - p.y) * 0.05;
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

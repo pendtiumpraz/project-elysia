@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave Interference</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 72px;
+            text-shadow: 0 0 30px #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>〰️ WAVES</h1>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let time = 0;
+        const sources = [
+            {x: canvas.width * 0.3, y: canvas.height / 2},
+            {x: canvas.width * 0.7, y: canvas.height / 2}
+        ];
+        
+        function animate() {
+            const imageData = ctx.createImageData(canvas.width, canvas.height);
+            
+            for (let y = 0; y < canvas.height; y += 3) {
+                for (let x = 0; x < canvas.width; x += 3) {
+                    let wave = 0;
+                    
+                    sources.forEach(source => {
+                        const dx = x - source.x;
+                        const dy = y - source.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        wave += Math.sin(dist * 0.05 - time);
+                    });
+                    
+                    const index = (y * canvas.width + x) * 4;
+                    const color = Math.floor((wave + 2) * 63.75);
+                    
+                    for (let dy = 0; dy < 3; dy++) {
+                        for (let dx = 0; dx < 3; dx++) {
+                            const idx = ((y + dy) * canvas.width + (x + dx)) * 4;
+                            imageData.data[idx] = 0;
+                            imageData.data[idx + 1] = color;
+                            imageData.data[idx + 2] = color;
+                            imageData.data[idx + 3] = 255;
+                        }
+                    }
+                }
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+            time += 0.1;
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

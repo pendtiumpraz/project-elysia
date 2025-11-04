@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Grid</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #00ffff;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 96px;
+            font-weight: bold;
+            text-shadow: 0 0 40px #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>⬜ CYBER</h1>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let offset = 0;
+        const gridSize = 50;
+        
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = '#00ffff';
+            ctx.lineWidth = 2;
+            
+            // Horizontal lines
+            for (let y = 0; y < canvas.height + gridSize * 2; y += gridSize) {
+                const adjustedY = (y + offset) % (canvas.height + gridSize * 2);
+                const perspective = adjustedY / canvas.height;
+                
+                ctx.beginPath();
+                ctx.moveTo(0, adjustedY);
+                ctx.lineTo(canvas.width, adjustedY);
+                ctx.strokeStyle = `rgba(0, 255, 255, ${perspective})`;
+                ctx.stroke();
+            }
+            
+            // Vertical lines
+            for (let x = 0; x < canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.strokeStyle = 'rgba(0, 255, 255, 0.3)';
+                ctx.stroke();
+            }
+            
+            offset += 2;
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

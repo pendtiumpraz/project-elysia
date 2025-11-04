@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaleidoscope</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+            mix-blend-mode: difference;
+        }
+        
+        h1 {
+            font-size: 72px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>🔮 KALEIDOSCOPE</h1>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let angle = 0;
+        const segments = 12;
+        
+        function drawPattern(x, y, radius, rotation) {
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            
+            for (let i = 0; i < segments; i++) {
+                ctx.save();
+                ctx.rotate((Math.PI * 2 / segments) * i);
+                
+                for (let j = 0; j < 5; j++) {
+                    const r = radius * (j / 5);
+                    ctx.beginPath();
+                    ctx.arc(r, 0, 20, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsl(${(rotation + j * 60) % 360}, 100%, 50%)`;
+                    ctx.fill();
+                }
+                
+                ctx.restore();
+            }
+            
+            ctx.restore();
+        }
+        
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            drawPattern(canvas.width / 2, canvas.height / 2, 200, angle * 10);
+            
+            angle += 0.02;
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>
