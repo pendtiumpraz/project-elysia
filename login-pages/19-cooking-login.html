@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking Master - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 50%, #4ECDC4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .steam {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .steam-particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent);
+            border-radius: 50%;
+            animation: steam-rise linear infinite;
+        }
+        
+        @keyframes steam-rise {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {opacity: 0.8;}
+            100% {
+                transform: translateY(-100vh) scale(2);
+                opacity: 0;
+            }
+        }
+        
+        /* CHOPPING BOARD DESIGN */
+        .cooking-board {
+            background: linear-gradient(145deg, #f5deb3, #daa520);
+            padding: 50px;
+            border-radius: 20px;
+            width: 550px;
+            box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.2), 5px 5px 20px rgba(0, 0, 0, 0.3);
+            border: 12px solid #8B4513;
+            position: relative;
+        }
+        
+        .board-texture {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 50px,
+                rgba(139, 69, 19, 0.1) 50px,
+                rgba(139, 69, 19, 0.1) 52px
+            );
+            border-radius: 20px;
+            pointer-events: none;
+        }
+        
+        .recipe-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .chef-icon {
+            text-align: center;
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: chef-bounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+        }
+        
+        @keyframes chef-bounce {
+            0%, 100% {transform: translateY(0) rotate(-5deg);}
+            50% {transform: translateY(-15px) rotate(5deg);}
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: bold;
+            color: #FF6B6B;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        
+        .timer-display {
+            background: linear-gradient(135deg, #FF6B6B, #FFE66D);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .ingredient-list {
+            background: #fffef7;
+            border: 2px dashed #FFE66D;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+        }
+        
+        .ingredient-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            color: #666;
+        }
+        
+        .ingredient-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #FF6B6B;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #FFE66D;
+            border-radius: 10px;
+            background: #fffef7;
+            color: #666;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #FF6B6B;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(102, 102, 102, 0.5);
+        }
+        
+        .cook-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #FF6B6B, #FFE66D);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cook-btn::before {
+            content: '🔥';
+            position: absolute;
+            font-size: 30px;
+            animation: fire-move 2s linear infinite;
+        }
+        
+        @keyframes fire-move {
+            0% {left: -50px; top: 50%;}
+            100% {left: 110%; top: 50%;}
+        }
+        
+        .cook-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
+        }
+        
+        .kitchen-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .kitchen-link a {
+            color: #FF6B6B;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .utensils {
+            position: absolute;
+            top: -40px;
+            right: 20px;
+            font-size: 50px;
+            animation: utensil-wiggle 3s ease-in-out infinite;
+        }
+        
+        @keyframes utensil-wiggle {
+            0%, 100% {transform: rotate(-10deg);}
+            50% {transform: rotate(10deg);}
+        }
+    </style>
+</head>
+<body>
+    <div class="steam" id="steam"></div>
+    
+    <div class="cooking-board">
+        <div class="board-texture"></div>
+        <div class="utensils">🍳</div>
+        
+        <div class="recipe-card">
+            <div class="chef-icon">👨‍🍳</div>
+            <h1 class="title">Cooking Master</h1>
+            <p class="subtitle">Welcome to the Kitchen!</p>
+            
+            <div class="timer-display">
+                ⏱️ Cooking Time: 00:00
+            </div>
+            
+            <div class="ingredient-list">
+                <strong>📋 Today's Special Ingredients:</strong>
+                <div class="ingredient-item">
+                    <input type="checkbox" id="ing1">
+                    <label for="ing1">Fresh Username</label>
+                </div>
+                <div class="ingredient-item">
+                    <input type="checkbox" id="ing2">
+                    <label for="ing2">Secret Password Sauce</label>
+                </div>
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <label>🧑‍🍳 Chef Name</label>
+                    <input type="text" placeholder="Your culinary identity" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔐 Kitchen Code</label>
+                    <input type="password" placeholder="Secret recipe password" required>
+                </div>
+                
+                <button type="submit" class="cook-btn">🍽️ Start Cooking!</button>
+                
+                <p class="kitchen-link">
+                    New chef? <a href="#">Join Cooking School</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const steamContainer = document.getElementById('steam');
+        for (let i = 0; i < 15; i++) {
+            const steam = document.createElement('div');
+            steam.className = 'steam-particle';
+            steam.style.width = Math.random() * 50 + 30 + 'px';
+            steam.style.height = steam.style.width;
+            steam.style.left = Math.random() * 100 + '%';
+            steam.style.animationDuration = Math.random() * 5 + 3 + 's';
+            steam.style.animationDelay = Math.random() * 3 + 's';
+            steamContainer.appendChild(steam);
+        }
+        
+        let seconds = 0;
+        setInterval(() => {
+            seconds++;
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            document.querySelector('.timer-display').innerHTML = 
+                `⏱️ Cooking Time: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }, 1000);
+    </script>
+</body>
+</html>

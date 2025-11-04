@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Explorer - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(180deg, #000428 0%, #004e92 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* FULLSCREEN STARS BACKGROUND */
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {opacity: 0.3;}
+            50% {opacity: 1;}
+        }
+        
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px white;
+            animation: shoot linear infinite;
+        }
+        
+        @keyframes shoot {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-300px, 300px);
+                opacity: 0;
+            }
+        }
+        
+        .planet {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            animation: orbit 30s linear infinite;
+        }
+        
+        .planet-1 {
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #8B0000);
+            top: 10%;
+            right: 10%;
+            box-shadow: 0 0 50px rgba(255, 107, 107, 0.5);
+        }
+        
+        .planet-2 {
+            background: radial-gradient(circle at 30% 30%, #51cf66, #2b8a3e);
+            bottom: 15%;
+            left: 8%;
+            width: 100px;
+            height: 100px;
+            box-shadow: 0 0 40px rgba(81, 207, 102, 0.5);
+            animation-duration: 40s;
+            animation-direction: reverse;
+        }
+        
+        @keyframes orbit {
+            0%, 100% {transform: rotate(0deg) translateY(0);}
+            50% {transform: rotate(180deg) translateY(-20px);}
+        }
+        
+        /* HOLOGRAPHIC LOGIN PANEL */
+        .space-login {
+            background: rgba(0, 4, 40, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border: 2px solid #00d4ff;
+            border-radius: 20px;
+            width: 450px;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.5), inset 0 0 30px rgba(0, 212, 255, 0.1);
+            position: relative;
+            animation: panel-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes panel-glow {
+            0%, 100% {
+                box-shadow: 0 0 50px rgba(0, 212, 255, 0.5), inset 0 0 30px rgba(0, 212, 255, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 80px rgba(0, 212, 255, 0.8), inset 0 0 50px rgba(0, 212, 255, 0.2);
+            }
+        }
+        
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 212, 255, 0.03) 2px,
+                rgba(0, 212, 255, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: scan 10s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% {transform: translateY(0);}
+            100% {transform: translateY(20px);}
+        }
+        
+        .rocket-icon {
+            text-align: center;
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: rocket-launch 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px #00d4ff);
+        }
+        
+        @keyframes rocket-launch {
+            0%, 100% {transform: translateY(0) rotate(-45deg);}
+            50% {transform: translateY(-15px) rotate(-45deg);}
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #00d4ff;
+            letter-spacing: 5px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #0080ff;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .countdown {
+            text-align: center;
+            color: #00d4ff;
+            font-size: 20px;
+            margin-bottom: 25px;
+            font-family: 'Courier New', monospace;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 49% {opacity: 1;}
+            50%, 100% {opacity: 0.5;}
+        }
+        
+        .coordinate-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00d4ff;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+        
+        .coordinate-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid #00d4ff;
+            color: #00d4ff;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+        }
+        
+        .coordinate-input:focus {
+            outline: none;
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            border-color: #0080ff;
+        }
+        
+        .coordinate-input::placeholder {
+            color: rgba(0, 212, 255, 0.5);
+        }
+        
+        .autopilot {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: #00d4ff;
+            font-size: 14px;
+        }
+        
+        .autopilot input[type="checkbox"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .launch-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00d4ff, #0080ff);
+            color: #000428;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .launch-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% {left: -100%;}
+            50%, 100% {left: 100%;}
+        }
+        
+        .launch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.6);
+        }
+        
+        .space-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #0080ff;
+            font-size: 14px;
+        }
+        
+        .space-link a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="planet planet-1"></div>
+    <div class="planet planet-2"></div>
+    
+    <div class="space-login">
+        <div class="scanline"></div>
+        
+        <div class="rocket-icon">🚀</div>
+        <h1 class="title">SPACE EXPLORER</h1>
+        <p class="subtitle">Interstellar Navigation System</p>
+        
+        <div class="countdown">⏱️ T-MINUS: 00:00:00</div>
+        
+        <form>
+            <label class="coordinate-label">📡 Astronaut ID</label>
+            <input type="text" class="coordinate-input" placeholder="X-000-Y-000-Z-000" required>
+            
+            <label class="coordinate-label">🔒 Access Code</label>
+            <input type="password" class="coordinate-input" placeholder="Enter security clearance" required>
+            
+            <div class="autopilot">
+                <input type="checkbox" id="autopilot">
+                <label for="autopilot">Enable Autopilot Mode</label>
+            </div>
+            
+            <button type="submit" class="launch-btn">🚀 INITIATE LAUNCH</button>
+            
+            <p class="space-link">
+                New recruit? <a href="#">Register for Space Program</a>
+            </p>
+        </form>
+    </div>
+    
+    <script>
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = Math.random() * 3 + 1 + 's';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+        
+        for (let i = 0; i < 5; i++) {
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.left = Math.random() * 100 + '%';
+            shootingStar.style.top = Math.random() * 50 + '%';
+            shootingStar.style.animationDuration = Math.random() * 2 + 1 + 's';
+            shootingStar.style.animationDelay = Math.random() * 5 + 's';
+            starsContainer.appendChild(shootingStar);
+        }
+        
+        setInterval(() => {
+            const time = new Date().toLocaleTimeString();
+            document.querySelector('.countdown').textContent = `⏱️ SYSTEM TIME: ${time}`;
+        }, 1000);
+    </script>
+</body>
+</html>

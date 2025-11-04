@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detective Agency - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .film-grain {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4"/></filter><rect width="300" height="300" filter="url(%23noise)" opacity="0.05"/></svg>');
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        
+        /* CASE FILE FOLDER DESIGN */
+        .case-file {
+            background: linear-gradient(to bottom, #f4e4c1 0%, #e8d5a8 100%);
+            width: 550px;
+            padding: 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 1px solid #8B4513;
+        }
+        
+        .file-tab {
+            position: absolute;
+            top: -40px;
+            left: 60px;
+            background: #e74c3c;
+            color: #fff;
+            padding: 12px 40px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 3px;
+            border: 2px solid #c0392b;
+        }
+        
+        .classified-stamp {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: #e74c3c;
+            font-size: 60px;
+            font-weight: bold;
+            opacity: 0.4;
+            transform: rotate(15deg);
+            border: 5px solid #e74c3c;
+            padding: 10px 20px;
+            font-family: 'Impact', sans-serif;
+            letter-spacing: 3px;
+        }
+        
+        .file-content {
+            padding: 80px 50px 50px 50px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="30"><line x1="0" y1="15" x2="100" y2="15" stroke="%23c0c0c0" stroke-width="1" stroke-dasharray="2,2"/></svg>');
+        }
+        
+        .magnify-icon {
+            text-align: center;
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: magnify 3s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+        
+        @keyframes magnify {
+            0%, 100% {transform: scale(1) rotate(0deg);}
+            50% {transform: scale(1.1) rotate(10deg);}
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-family: 'Georgia', serif;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #e74c3c;
+            margin-bottom: 30px;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+        }
+        
+        .case-number {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .evidence-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .evidence-input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-bottom: 2px solid #34495e;
+            background: transparent;
+            color: #2c3e50;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .evidence-input:focus {
+            outline: none;
+            border-bottom-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.05);
+        }
+        
+        .evidence-input::placeholder {
+            color: rgba(44, 62, 80, 0.5);
+        }
+        
+        .fingerprint-scan {
+            text-align: center;
+            margin: 25px 0;
+            color: #e74c3c;
+            font-size: 14px;
+        }
+        
+        .fingerprint {
+            font-size: 60px;
+            animation: scan-pulse 2s infinite;
+        }
+        
+        @keyframes scan-pulse {
+            0%, 100% {opacity: 1; transform: scale(1);}
+            50% {opacity: 0.5; transform: scale(1.1);}
+        }
+        
+        .investigate-btn {
+            width: 100%;
+            padding: 18px;
+            background: #e74c3c;
+            color: #fff;
+            border: 3px solid #c0392b;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .investigate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: scan-effect 3s infinite;
+        }
+        
+        @keyframes scan-effect {
+            0% {left: -100%;}
+            50%, 100% {left: 100%;}
+        }
+        
+        .investigate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(231, 76, 60, 0.5);
+        }
+        
+        .case-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #2c3e50;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .case-link a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px solid #e74c3c;
+        }
+        
+        .paperclip {
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 40px;
+            transform: rotate(-45deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="film-grain"></div>
+    
+    <div class="case-file">
+        <div class="file-tab">CASE FILE #001</div>
+        <div class="classified-stamp">CLASSIFIED</div>
+        <div class="paperclip">📎</div>
+        
+        <div class="file-content">
+            <div class="magnify-icon">🔍</div>
+            <h1 class="title">DETECTIVE AGENCY</h1>
+            <p class="subtitle">Confidential Access Only</p>
+            
+            <div class="case-number">
+                <strong>CASE STATUS:</strong> ACTIVE INVESTIGATION<br>
+                <strong>CLEARANCE:</strong> Required for access
+            </div>
+            
+            <form>
+                <label class="evidence-label">🕵️ Detective ID</label>
+                <input type="text" class="evidence-input" placeholder="Enter your badge number" required>
+                
+                <label class="evidence-label">🔒 Classified Code</label>
+                <input type="password" class="evidence-input" placeholder="Top secret password" required>
+                
+                <div class="fingerprint-scan">
+                    <div class="fingerprint">👆</div>
+                    <small>Biometric Scan Required</small>
+                </div>
+                
+                <button type="submit" class="investigate-btn">🔍 Begin Investigation</button>
+                
+                <p class="case-link">
+                    New detective? <a href="#">Apply for Badge</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

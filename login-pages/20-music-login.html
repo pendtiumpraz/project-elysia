@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Studio - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6B5B95 0%, #B8A9C9 50%, #FFA7C4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        .music-notes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .note {
+            position: absolute;
+            font-size: 40px;
+            animation: float-note linear infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes float-note {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {opacity: 0.6;}
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .sound-wave {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            pointer-events: none;
+        }
+        
+        .wave-bar {
+            width: 5px;
+            background: linear-gradient(to top, #FFA7C4, transparent);
+            animation: wave-pulse ease-in-out infinite;
+        }
+        
+        @keyframes wave-pulse {
+            0%, 100% {height: 20px;}
+            50% {height: 80px;}
+        }
+        
+        /* VINYL RECORD DESIGN */
+        .vinyl-container {
+            width: 550px;
+            height: 550px;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                #1a1a1a 0%,
+                #1a1a1a 35%,
+                #FFA7C4 35%,
+                #FFA7C4 37%,
+                #1a1a1a 37%,
+                #1a1a1a 45%,
+                #B8A9C9 45%,
+                #B8A9C9 47%,
+                #1a1a1a 47%,
+                #1a1a1a 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: vinyl-spin 8s linear infinite;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        @keyframes vinyl-spin {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+        
+        .vinyl-grooves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: repeating-radial-gradient(
+                circle,
+                transparent 0px,
+                transparent 5px,
+                rgba(255, 255, 255, 0.03) 5px,
+                rgba(255, 255, 255, 0.03) 7px
+            );
+        }
+        
+        .vinyl-center {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        .vinyl-hole {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .login-form {
+            background: rgba(26, 26, 26, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            width: 380px;
+            z-index: 10;
+            animation: counter-spin 8s linear infinite;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            border: 3px solid #FFA7C4;
+        }
+        
+        @keyframes counter-spin {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(-360deg);}
+        }
+        
+        .headphone-icon {
+            text-align: center;
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: beat 0.8s ease-in-out infinite;
+        }
+        
+        @keyframes beat {
+            0%, 100% {transform: scale(1);}
+            25% {transform: scale(1.1);}
+            50% {transform: scale(1);}
+            75% {transform: scale(1.05);}
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFA7C4, #B8A9C9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #B8A9C9;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .track-info {
+            background: rgba(255, 167, 196, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid #FFA7C4;
+        }
+        
+        .track-title {
+            color: #FFA7C4;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .track-artist {
+            color: #B8A9C9;
+            font-size: 14px;
+        }
+        
+        .waveform {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .wave-line {
+            width: 3px;
+            background: #FFA7C4;
+            animation: waveform-pulse ease-in-out infinite;
+        }
+        
+        @keyframes waveform-pulse {
+            0%, 100% {height: 10px;}
+            50% {height: 30px;}
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #FFA7C4;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #6B5B95;
+            border-radius: 10px;
+            background: rgba(107, 91, 149, 0.1);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #FFA7C4;
+            box-shadow: 0 0 20px rgba(255, 167, 196, 0.5);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255, 167, 196, 0.5);
+        }
+        
+        .play-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #FFA7C4, #6B5B95);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 10px 30px rgba(255, 167, 196, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .play-btn::before {
+            content: '▶️';
+            position: absolute;
+            font-size: 25px;
+            left: 20px;
+            animation: pulse-play 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-play {
+            0%, 100% {transform: scale(1);}
+            50% {transform: scale(1.2);}
+        }
+        
+        .play-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 167, 196, 0.6);
+        }
+        
+        .studio-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #B8A9C9;
+            font-size: 14px;
+        }
+        
+        .studio-link a {
+            color: #FFA7C4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="music-notes" id="notes"></div>
+    <div class="sound-wave" id="soundwave"></div>
+    
+    <div class="vinyl-container">
+        <div class="vinyl-grooves"></div>
+        <div class="vinyl-center">
+            <div class="vinyl-hole"></div>
+        </div>
+        
+        <div class="login-form">
+            <div class="headphone-icon">🎵</div>
+            <h1 class="title">MUSIC STUDIO</h1>
+            <p class="subtitle">Your Personal Recording Session</p>
+            
+            <div class="track-info">
+                <div class="track-title">🎧 Now Playing:</div>
+                <div class="track-artist">Login Theme - Studio Mix</div>
+            </div>
+            
+            <div class="waveform" id="waveform"></div>
+            
+            <form>
+                <div class="form-group">
+                    <label>🎤 Artist Name</label>
+                    <input type="text" placeholder="Your stage name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔒 Studio Key</label>
+                    <input type="password" placeholder="Access code" required>
+                </div>
+                
+                <button type="submit" class="play-btn">▶️ Start Recording</button>
+                
+                <p class="studio-link">
+                    New artist? <a href="#">Book Studio Time</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const notesContainer = document.getElementById('notes');
+        const noteSymbols = ['🎵', '🎶', '🎼', '🎹'];
+        for (let i = 0; i < 20; i++) {
+            const note = document.createElement('div');
+            note.className = 'note';
+            note.textContent = noteSymbols[Math.floor(Math.random() * noteSymbols.length)];
+            note.style.left = Math.random() * 100 + '%';
+            note.style.animationDuration = Math.random() * 8 + 5 + 's';
+            note.style.animationDelay = Math.random() * 5 + 's';
+            notesContainer.appendChild(note);
+        }
+        
+        const soundwaveContainer = document.getElementById('soundwave');
+        for (let i = 0; i < 50; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'wave-bar';
+            bar.style.animationDuration = Math.random() * 0.5 + 0.3 + 's';
+            bar.style.animationDelay = Math.random() * 0.5 + 's';
+            soundwaveContainer.appendChild(bar);
+        }
+        
+        const waveformContainer = document.getElementById('waveform');
+        for (let i = 0; i < 30; i++) {
+            const line = document.createElement('div');
+            line.className = 'wave-line';
+            line.style.animationDuration = Math.random() * 0.8 + 0.4 + 's';
+            line.style.animationDelay = Math.random() * 0.8 + 's';
+            waveformContainer.appendChild(line);
+        }
+    </script>
+</body>
+</html>

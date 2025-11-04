@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samurai Honor - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #D2691E 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .sakura-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .sakura {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #ffb7c5, #ff69b4);
+            border-radius: 50% 0 50% 0;
+            animation: sakura-fall linear infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes sakura-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {opacity: 0.7;}
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* VERTICAL SCROLL DESIGN - KAKEMONO STYLE */
+        .scroll-container {
+            background: linear-gradient(to bottom, #f5e6d3 0%, #f5e6d3 5%, #fff8dc 10%, #fff8dc 90%, #f5e6d3 95%, #f5e6d3 100%);
+            width: 450px;
+            padding: 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 3px solid #8B4513;
+        }
+        
+        .scroll-rod-top {
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to right, #654321, #8B4513, #654321);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .scroll-rod-top::before,
+        .scroll-rod-top::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 30px;
+            background: #FFD700;
+            border-radius: 5px;
+        }
+        
+        .scroll-rod-top::before {left: -10px;}
+        .scroll-rod-top::after {right: -10px;}
+        
+        .scroll-content {
+            padding: 50px 40px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23fff8dc" width="100" height="100"/><line x1="0" y1="50" x2="100" y2="50" stroke="%23f0e68c" stroke-width="0.5" opacity="0.3"/></svg>');
+        }
+        
+        .kamon {
+            text-align: center;
+            font-size: 80px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 10px rgba(255, 215, 0, 0.5));
+            animation: kamon-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes kamon-glow {
+            0%, 100% {
+                filter: drop-shadow(0 5px 10px rgba(255, 215, 0, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 5px 20px rgba(255, 215, 0, 0.8));
+            }
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 10px;
+            font-family: 'Georgia', serif;
+            text-shadow: 2px 2px 0 #FFD700;
+            letter-spacing: 5px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #A0522D;
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-style: italic;
+        }
+        
+        .bushido-text {
+            text-align: center;
+            color: #D2691E;
+            font-size: 14px;
+            margin-bottom: 30px;
+            border-top: 2px solid #D2691E;
+            border-bottom: 2px solid #D2691E;
+            padding: 10px 0;
+            font-family: 'Georgia', serif;
+        }
+        
+        .katana-divider {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, transparent, #C0C0C0, transparent);
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .katana-divider::before {
+            content: '⚔️';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff8dc;
+            padding: 0 10px;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #8B4513;
+            font-weight: bold;
+            font-size: 14px;
+            font-family: 'Georgia', serif;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-bottom: 3px solid #8B4513;
+            background: transparent;
+            color: #654321;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Georgia', serif;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-bottom-color: #FFD700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(139, 69, 19, 0.5);
+            font-style: italic;
+        }
+        
+        .honor-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #654321;
+            border: 3px solid #8B4513;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'Georgia', serif;
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .honor-btn::before {
+            content: '⚡';
+            position: absolute;
+            top: 50%;
+            left: -50px;
+            transform: translateY(-50%);
+            font-size: 30px;
+            animation: sword-slash 3s infinite;
+        }
+        
+        @keyframes sword-slash {
+            0% {left: -50px;}
+            50% {left: 110%;}
+            100% {left: 110%;}
+        }
+        
+        .honor-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.5);
+        }
+        
+        .scroll-rod-bottom {
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to right, #654321, #8B4513, #654321);
+            border-radius: 15px;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .scroll-rod-bottom::before,
+        .scroll-rod-bottom::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 30px;
+            background: #FFD700;
+            border-radius: 5px;
+        }
+        
+        .scroll-rod-bottom::before {left: -10px;}
+        .scroll-rod-bottom::after {right: -10px;}
+        
+        .clan-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #8B4513;
+            font-size: 14px;
+            font-family: 'Georgia', serif;
+        }
+        
+        .clan-link a {
+            color: #D2691E;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px solid #D2691E;
+        }
+        
+        .clan-link a:hover {
+            color: #FFD700;
+            border-bottom-color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="sakura-container" id="sakura"></div>
+    
+    <div class="scroll-container">
+        <div class="scroll-rod-top"></div>
+        
+        <div class="scroll-content">
+            <div class="kamon">⚔️</div>
+            <h1 class="title">侍 SAMURAI</h1>
+            <p class="subtitle">Way of the Warrior</p>
+            
+            <div class="bushido-text">
+                義 • 勇 • 仁 • 礼 • 誠 • 名誉 • 忠義<br>
+                <small>Seven Virtues of Bushido</small>
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <label>🎌 Samurai Name</label>
+                    <input type="text" placeholder="Enter your honorable name" required>
+                </div>
+                
+                <div class="katana-divider"></div>
+                
+                <div class="form-group">
+                    <label>🗡️ Secret Code</label>
+                    <input type="password" placeholder="Clan password" required>
+                </div>
+                
+                <button type="submit" class="honor-btn">Enter with Honor</button>
+                
+                <p class="clan-link">
+                    Not a warrior yet? <a href="#">Join the Clan</a>
+                </p>
+            </form>
+        </div>
+        
+        <div class="scroll-rod-bottom"></div>
+    </div>
+    
+    <script>
+        const sakuraContainer = document.getElementById('sakura');
+        for (let i = 0; i < 20; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'sakura';
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDuration = Math.random() * 5 + 5 + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            sakuraContainer.appendChild(petal);
+        }
+    </script>
+</body>
+</html>

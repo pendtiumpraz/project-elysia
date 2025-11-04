@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Clan - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        .smoke-effect {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(192, 0, 0, 0.1) 0%, #000 70%);
+            animation: smoke-move 8s ease-in-out infinite;
+        }
+        
+        @keyframes smoke-move {
+            0%, 100% {transform: scale(1) rotate(0deg);}
+            50% {transform: scale(1.1) rotate(5deg);}
+        }
+        
+        /* DIAGONAL SPLIT DESIGN - TOTALLY DIFFERENT! */
+        .ninja-container {
+            display: flex;
+            width: 900px;
+            height: 600px;
+            position: relative;
+            clip-path: polygon(0 0, 65% 0, 100% 100%, 0 100%);
+            box-shadow: 0 30px 80px rgba(192, 0, 0, 0.5);
+        }
+        
+        .ninja-left {
+            flex: 1;
+            background: linear-gradient(135deg, #c00 0%, #800 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ninja-left::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(0, 0, 0, 0.1) 10px,
+                rgba(0, 0, 0, 0.1) 20px
+            );
+            animation: stripe-move 20s linear infinite;
+        }
+        
+        @keyframes stripe-move {
+            from {transform: translate(0, 0);}
+            to {transform: translate(50px, 50px);}
+        }
+        
+        .ninja-icon {
+            font-size: 200px;
+            z-index: 2;
+            filter: drop-shadow(0 0 30px #000);
+            animation: ninja-appear 2s ease-in-out infinite;
+        }
+        
+        @keyframes ninja-appear {
+            0%, 100% {opacity: 1; transform: scale(1);}
+            50% {opacity: 0.7; transform: scale(0.95);}
+        }
+        
+        .clan-text {
+            font-size: 42px;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 2px 2px 0 #fff;
+            z-index: 2;
+            margin-top: 20px;
+            letter-spacing: 5px;
+        }
+        
+        .ninja-right {
+            flex: 1.2;
+            background: rgba(0, 0, 0, 0.98);
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 3px solid #c00;
+        }
+        
+        .scroll-top {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to right, #8B4513, #D2691E);
+            margin-bottom: 30px;
+            border-radius: 10px 10px 0 0;
+            border: 2px solid #654321;
+        }
+        
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #c00;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 #000, 0 0 20px #c00;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            color: #fff;
+            margin-bottom: 40px;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        .shinobi-note {
+            background: rgba(192, 0, 0, 0.1);
+            border-left: 4px solid #c00;
+            padding: 15px;
+            margin-bottom: 25px;
+            color: #ff6b6b;
+            font-size: 13px;
+            font-style: italic;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c00;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(192, 0, 0, 0.1);
+            border: 1px solid #c00;
+            border-left: 4px solid #c00;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            background: rgba(192, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(192, 0, 0, 0.5);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255, 107, 107, 0.5);
+        }
+        
+        .mission-btn {
+            width: 100%;
+            padding: 18px;
+            background: #c00;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+        }
+        
+        .mission-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .mission-btn:hover::before {
+            left: 100%;
+        }
+        
+        .mission-btn:hover {
+            box-shadow: 0 0 30px rgba(192, 0, 0, 0.8);
+        }
+        
+        .scroll-bottom {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to right, #8B4513, #D2691E);
+            margin-top: 30px;
+            border-radius: 0 0 10px 10px;
+            border: 2px solid #654321;
+        }
+        
+        .clan-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .clan-link a {
+            color: #c00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="smoke-effect"></div>
+    <div class="magic-particles" id="particles"></div>
+    
+    <div class="ninja-container">
+        <div class="ninja-left">
+            <div class="ninja-icon">🥷</div>
+            <div class="clan-text">SHINOBI</div>
+        </div>
+        
+        <div class="ninja-right">
+            <div class="scroll-top"></div>
+            
+            <h1 class="title">NINJA CLAN</h1>
+            <p class="subtitle">Shadow Warrior Access</p>
+            
+            <div class="shinobi-note">
+                ⚠️ Only true shinobi may pass. State your identity.
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <label>🗡️ Shinobi Code</label>
+                    <input type="text" placeholder="Enter your clan ID" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔒 Secret Jutsu</label>
+                    <input type="password" placeholder="Forbidden technique password" required>
+                </div>
+                
+                <button type="submit" class="mission-btn">⚡ ACCEPT MISSION</button>
+                
+                <div class="scroll-bottom"></div>
+                
+                <p class="clan-link">
+                    Outsider? <a href="#">Join the Shadows</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 4 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = Math.random() * 5 + 3 + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>

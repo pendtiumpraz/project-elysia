@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isekai Portal - Login</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {
+            font-family: Georgia, serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .magic-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #f093fb, transparent);
+            border-radius: 50%;
+            animation: float-particle linear infinite;
+        }
+        
+        @keyframes float-particle {
+            0% {transform: translateY(100vh) scale(0); opacity: 0;}
+            10% {opacity: 1;}
+            90% {opacity: 1;}
+            100% {transform: translateY(-100px) scale(1); opacity: 0;}
+        }
+        
+        /* CIRCULAR PORTAL DESIGN - COMPLETELY DIFFERENT! */
+        .portal-login {
+            width: 550px;
+            height: 550px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, rgba(0, 0, 0, 0.9) 70%);
+            border: 5px solid #f093fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: portal-pulse 3s ease-in-out infinite;
+            box-shadow: 0 0 100px #f093fb, inset 0 0 100px rgba(240, 147, 251, 0.3);
+        }
+        
+        @keyframes portal-pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 100px #f093fb, inset 0 0 100px rgba(240, 147, 251, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 150px #f093fb, inset 0 0 150px rgba(240, 147, 251, 0.5);
+            }
+        }
+        
+        /* Rotating rings around portal */
+        .magic-ring {
+            position: absolute;
+            border: 3px solid rgba(240, 147, 251, 0.3);
+            border-radius: 50%;
+            border-top-color: #f093fb;
+            animation: ring-rotate linear infinite;
+        }
+        
+        .ring-1 {width: 500px; height: 500px; animation-duration: 3s;}
+        .ring-2 {width: 450px; height: 450px; animation-duration: 4s; animation-direction: reverse;}
+        .ring-3 {width: 400px; height: 400px; animation-duration: 5s;}
+        
+        @keyframes ring-rotate {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+        
+        .login-form {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            width: 350px;
+            z-index: 10;
+            border: 2px solid #f093fb;
+            box-shadow: 0 0 50px rgba(240, 147, 251, 0.5);
+        }
+        
+        .portal-icon {
+            text-align: center;
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: portal-spin 10s linear infinite;
+            filter: drop-shadow(0 0 20px #f093fb);
+        }
+        
+        @keyframes portal-spin {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #f093fb, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #f093fb;
+            margin-bottom: 30px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        
+        .rune-text {
+            text-align: center;
+            color: rgba(240, 147, 251, 0.5);
+            font-size: 20px;
+            letter-spacing: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f093fb;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #764ba2;
+            border-radius: 15px;
+            background: rgba(118, 75, 162, 0.1);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: Arial, sans-serif;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #f093fb;
+            box-shadow: 0 0 20px rgba(240, 147, 251, 0.5);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #f093fb, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.6);
+        }
+        
+        .portal-link {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(240, 147, 251, 0.7);
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .portal-link a {
+            color: #f093fb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="magic-particles" id="particles"></div>
+    
+    <div class="portal-login">
+        <div class="magic-ring ring-1"></div>
+        <div class="magic-ring ring-2"></div>
+        <div class="magic-ring ring-3"></div>
+        
+        <div class="login-form">
+            <div class="form-inner">
+                <div class="portal-icon">🌀</div>
+                <h1 class="title">Isekai Portal</h1>
+                <p class="subtitle">Gateway to Another World</p>
+                <p class="rune-text">✦ ◆ ✧ ◇</p>
+                
+                <form>
+                    <div class="form-group">
+                        <label>🗡️ Hero Name</label>
+                        <input type="text" placeholder="Enter your isekai name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📜 Magic Code</label>
+                        <input type="password" placeholder="Portal access code" required>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">✨ Transport to Another World</button>
+                    
+                    <p class="portal-link">
+                        Not transported yet? <a href="#">Create Portal</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 6 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = Math.random() * 5 + 3 + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
