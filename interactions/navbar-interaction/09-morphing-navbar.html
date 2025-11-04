@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morphing Navbar</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            color: white;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .nav-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.5);
+            transition: all 0.3s;
+        }
+        
+        .nav-circle:hover {
+            transform: scale(1.1);
+        }
+        
+        .navbar.expanded {
+            top: 0;
+            left: 0;
+            transform: none;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        .navbar.expanded .nav-circle {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+        }
+        
+        .nav-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .navbar.expanded .nav-content {
+            opacity: 1;
+            visibility: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition-delay: 0.3s;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        
+        .nav-item {
+            text-align: center;
+        }
+        
+        .nav-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s;
+        }
+        
+        .navbar.expanded .nav-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .nav-icon:nth-child(1) {transition-delay: 0.4s;}
+        .nav-item:nth-child(2) .nav-icon {transition-delay: 0.5s;}
+        .nav-item:nth-child(3) .nav-icon {transition-delay: 0.6s;}
+        .nav-item:nth-child(4) .nav-icon {transition-delay: 0.7s;}
+        
+        .nav-item a {
+            text-decoration: none;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-item:hover a {
+            color: #667eea;
+            text-shadow: 0 0 20px #667eea;
+        }
+        
+        .content {
+            padding: 100px 50px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 18px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-circle" id="navToggle">☰</div>
+        
+        <div class="nav-content">
+            <div class="nav-grid">
+                <div class="nav-item">
+                    <div class="nav-icon">🏠</div>
+                    <a href="#">Home</a>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">ℹ️</div>
+                    <a href="#">About</a>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">💼</div>
+                    <a href="#">Services</a>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">📞</div>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="content">
+        <h1>🔄 Morphing Navbar</h1>
+        <p>Click the floating circle to expand the navigation!</p>
+        <p>It morphs from a small circle into a fullscreen menu.</p>
+    </div>
+    
+    <script>
+        const navbar = document.getElementById('navbar');
+        const navToggle = document.getElementById('navToggle');
+        
+        navToggle.addEventListener('click', () => {
+            navbar.classList.toggle('expanded');
+            navToggle.textContent = navbar.classList.contains('expanded') ? '✕' : '☰';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism Navbar</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding-top: 100px;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-item a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transform: translateX(-50%);
+            transition: width 0.3s;
+        }
+        
+        .nav-item a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-item a:hover::before {
+            width: 80%;
+        }
+        
+        .nav-item a.active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .content {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#" class="active">Home</a></li>
+            <li class="nav-item"><a href="#">About</a></li>
+            <li class="nav-item"><a href="#">Services</a></li>
+            <li class="nav-item"><a href="#">Portfolio</a></li>
+            <li class="nav-item"><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <div class="content">
+        <h1>✨ Glassmorphism Navbar</h1>
+        <p>This navigation bar features a beautiful glassmorphism effect with frosted glass appearance.</p>
+        <p>The backdrop-filter creates a blurred transparency that adapts to the background.</p>
+        <p>Hover over the navigation items to see the smooth transitions and highlight effects.</p>
+        <p>This design is modern, clean, and works perfectly with colorful gradients.</p>
+    </div>
+    
+    <script>
+        const navLinks = document.querySelectorAll('.nav-item a');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

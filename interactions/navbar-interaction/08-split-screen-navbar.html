@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Screen Navbar</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            z-index: 1000;
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .navbar.active {
+            transform: translateY(0);
+        }
+        
+        .nav-left {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .nav-right {
+            flex: 1;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .nav-section h2 {
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+        
+        .nav-section ul {
+            list-style: none;
+        }
+        
+        .nav-section li {
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        
+        .navbar.active .nav-section li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-section li:nth-child(1) {transition-delay: 0.1s;}
+        .nav-section li:nth-child(2) {transition-delay: 0.2s;}
+        .nav-section li:nth-child(3) {transition-delay: 0.3s;}
+        .nav-section li:nth-child(4) {transition-delay: 0.4s;}
+        
+        .nav-section a {
+            text-decoration: none;
+            color: white;
+            font-size: 32px;
+            transition: all 0.3s;
+            display: block;
+        }
+        
+        .nav-section a:hover {
+            transform: translateX(10px);
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 48px;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .menu-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: all 0.3s;
+        }
+        
+        .menu-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .content {
+            padding: 100px 50px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-btn" id="menuBtn">☰</div>
+    
+    <div class="navbar" id="navbar">
+        <div class="close-btn" id="closeBtn">✕</div>
+        
+        <div class="nav-left nav-section">
+            <h2>🌟 Explore</h2>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Portfolio</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-right nav-section">
+            <h2>📞 Connect</h2>
+            <ul>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="content">
+        <h1>📱 Split Screen Navbar</h1>
+        <p>Click the menu button to see the full-screen split navigation!</p>
+        <p>Features two different sections with staggered animations.</p>
+    </div>
+    
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const navbar = document.getElementById('navbar');
+        
+        menuBtn.addEventListener('click', () => {
+            navbar.classList.add('active');
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            navbar.classList.remove('active');
+        });
+    </script>
+</body>
+</html>

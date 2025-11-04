@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Expand Navbar</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .navbar {
+            background: #000;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-item a:hover {
+            color: #667eea;
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-icon {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-box {
+            position: absolute;
+            right: 0;
+            width: 0;
+            overflow: hidden;
+            background: white;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .search-box.active {
+            width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            border-radius: 25px;
+        }
+        
+        .content {
+            padding: 100px 50px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🔍 SEARCH</div>
+        
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#">Home</a></li>
+            <li class="nav-item"><a href="#">About</a></li>
+            <li class="nav-item"><a href="#">Services</a></li>
+            <li class="nav-item"><a href="#">Contact</a></li>
+        </ul>
+        
+        <div class="search-container">
+            <span class="search-icon" id="searchIcon">🔍</span>
+            <div class="search-box" id="searchBox">
+                <input type="text" placeholder="Search...">
+            </div>
+        </div>
+    </nav>
+    
+    <div class="content">
+        <h1>🔍 Expanding Search Navbar</h1>
+        <p>Click the search icon to expand the search bar!</p>
+        <p>Features a smooth elastic animation effect.</p>
+    </div>
+    
+    <script>
+        const searchIcon = document.getElementById('searchIcon');
+        const searchBox = document.getElementById('searchBox');
+        const searchInput = searchBox.querySelector('input');
+        
+        searchIcon.addEventListener('click', () => {
+            searchBox.classList.add('active');
+            searchInput.focus();
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!searchIcon.contains(e.target) && !searchBox.contains(e.target)) {
+                searchBox.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

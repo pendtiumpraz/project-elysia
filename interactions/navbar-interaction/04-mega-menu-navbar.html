@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Menu Navbar</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+        }
+        
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item > a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .nav-item > a:hover {
+            color: #667eea;
+        }
+        
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: -100px;
+            width: 800px;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+        }
+        
+        .nav-item:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .mega-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .mega-column h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .mega-column ul {
+            list-style: none;
+        }
+        
+        .mega-column li {
+            margin: 10px 0;
+        }
+        
+        .mega-column a {
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: block;
+        }
+        
+        .mega-column a:hover {
+            color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#">Products ▼</a>
+                    <div class="mega-menu">
+                        <div class="mega-grid">
+                            <div class="mega-column">
+                                <h3>🎨 Design Tools</h3>
+                                <ul>
+                                    <li><a href="#">Photoshop</a></li>
+                                    <li><a href="#">Illustrator</a></li>
+                                    <li><a href="#">Figma</a></li>
+                                    <li><a href="#">Sketch</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h3>💻 Development</h3>
+                                <ul>
+                                    <li><a href="#">VS Code</a></li>
+                                    <li><a href="#">GitHub</a></li>
+                                    <li><a href="#">Docker</a></li>
+                                    <li><a href="#">Firebase</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h3>📱 Mobile Apps</h3>
+                                <ul>
+                                    <li><a href="#">iOS App</a></li>
+                                    <li><a href="#">Android App</a></li>
+                                    <li><a href="#">React Native</a></li>
+                                    <li><a href="#">Flutter</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Solutions ▼</a>
+                    <div class="mega-menu">
+                        <div class="mega-grid">
+                            <div class="mega-column">
+                                <h3>🏢 Enterprise</h3>
+                                <ul>
+                                    <li><a href="#">Team Management</a></li>
+                                    <li><a href="#">Security</a></li>
+                                    <li><a href="#">Analytics</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h3>🚀 Startups</h3>
+                                <ul>
+                                    <li><a href="#">Quick Start</a></li>
+                                    <li><a href="#">Scaling</a></li>
+                                    <li><a href="#">Growth Tools</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h3>👤 Personal</h3>
+                                <ul>
+                                    <li><a href="#">Free Plan</a></li>
+                                    <li><a href="#">Pro Plan</a></li>
+                                    <li><a href="#">Premium</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item"><a href="#">Pricing</a></li>
+                <li class="nav-item"><a href="#">About</a></li>
+                <li class="nav-item"><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="hero">
+        <h1>🎯 Mega Menu Navbar</h1>
+        <p>Hover over "Products" or "Solutions" to see the mega menu dropdown!</p>
+        <p>Perfect for sites with many categories and subcategories.</p>
+    </div>
+</body>
+</html>

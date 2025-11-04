@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Change on Scroll Navbar</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        /* Transparent state */
+        .navbar.transparent {
+            background: transparent;
+        }
+        
+        .navbar.transparent .logo,
+        .navbar.transparent .nav-item a {
+            color: white;
+        }
+        
+        /* Solid state */
+        .navbar.solid {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar.solid .logo,
+        .navbar.solid .nav-item a {
+            color: #333;
+        }
+        
+        .navbar.solid .nav-item a:hover {
+            color: #667eea;
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 72px;
+        }
+        
+        .content-section {
+            padding: 100px 50px;
+            background: white;
+        }
+        
+        .content-section h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .content-section p {
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar transparent" id="navbar">
+        <div class="nav-container">
+            <div class="logo">🎨 COLOR NAV</div>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#">Home</a></li>
+                <li class="nav-item"><a href="#">About</a></li>
+                <li class="nav-item"><a href="#">Services</a></li>
+                <li class="nav-item"><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="hero">
+        <h1>Scroll Down ⬇️</h1>
+    </div>
+    
+    <div class="content-section">
+        <h2>📜 Watch the Navbar Change!</h2>
+        <p>As you scroll down, the navbar transforms from transparent to solid white with a shadow.</p>
+        <p>This creates a seamless experience where the navbar doesn't obstruct the hero section.</p>
+        <p>The text color also changes to maintain perfect readability.</p>
+        <p>Keep scrolling to see more content...</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    
+    <script>
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.remove('transparent');
+                navbar.classList.add('solid');
+            } else {
+                navbar.classList.remove('solid');
+                navbar.classList.add('transparent');
+            }
+        });
+    </script>
+</body>
+</html>

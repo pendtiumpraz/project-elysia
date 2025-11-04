@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Tab Bar Navbar</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            padding: 100px 20px;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 50px;
+            padding: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            position: relative;
+        }
+        
+        .nav-item {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: #666;
+            padding: 15px 30px;
+            display: block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .nav-item a.active {
+            color: white;
+        }
+        
+        .nav-indicator {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            height: calc(100% - 10px);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 40px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1;
+        }
+        
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        
+        .section p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-list" id="navList">
+            <li class="nav-item">
+                <a href="#home" class="active" data-target="home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="#about" data-target="about">About</a>
+            </li>
+            <li class="nav-item">
+                <a href="#services" data-target="services">Services</a>
+            </li>
+            <li class="nav-item">
+                <a href="#contact" data-target="contact">Contact</a>
+            </li>
+            <div class="nav-indicator" id="indicator"></div>
+        </ul>
+    </nav>
+    
+    <div class="content">
+        <div class="section active" id="home">
+            <h2>🏠 Home</h2>
+            <p>Welcome to the animated tab bar navigation demo!</p>
+            <p>Notice the smooth sliding indicator that follows your selection.</p>
+        </div>
+        
+        <div class="section" id="about">
+            <h2>ℹ️ About</h2>
+            <p>This navigation features a morphing background indicator.</p>
+            <p>It smoothly transitions between tabs with an elastic animation.</p>
+        </div>
+        
+        <div class="section" id="services">
+            <h2>⚙️ Services</h2>
+            <p>The content sections fade in with a subtle slide animation.</p>
+            <p>Each tab shows different content dynamically.</p>
+        </div>
+        
+        <div class="section" id="contact">
+            <h2>📞 Contact</h2>
+            <p>Click different tabs to see the indicator animation!</p>
+            <p>Perfect for single-page applications.</p>
+        </div>
+    </div>
+    
+    <script>
+        const navLinks = document.querySelectorAll('.nav-item a');
+        const indicator = document.getElementById('indicator');
+        const sections = document.querySelectorAll('.section');
+        
+        function moveIndicator(element) {
+            const width = element.offsetWidth;
+            const left = element.offsetLeft;
+            indicator.style.width = width + 'px';
+            indicator.style.left = left + 'px';
+        }
+        
+        // Initialize indicator position
+        moveIndicator(document.querySelector('.nav-item a.active'));
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active states
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Move indicator
+                moveIndicator(link);
+                
+                // Show corresponding section
+                const targetId = link.dataset.target;
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

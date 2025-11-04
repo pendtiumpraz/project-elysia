@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Navbar</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 72px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .navbar.visible {
+            top: 20px;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+        
+        .nav-item a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 100px 50px;
+        }
+        
+        .section {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        
+        .section p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Scroll Down ⬇️</h1>
+    </div>
+    
+    <nav class="navbar" id="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#section1">Section 1</a></li>
+            <li class="nav-item"><a href="#section2">Section 2</a></li>
+            <li class="nav-item"><a href="#section3">Section 3</a></li>
+            <li class="nav-item"><a href="#section4">Section 4</a></li>
+        </ul>
+    </nav>
+    
+    <div class="content">
+        <div class="section" id="section1">
+            <h2>🚀 Section 1</h2>
+            <p>The navbar appears when you scroll down! It floats elegantly from the top with smooth animation.</p>
+            <p>This creates a clean, modern look while saving screen space when at the top of the page.</p>
+        </div>
+        
+        <div class="section" id="section2">
+            <h2>✨ Section 2</h2>
+            <p>Notice how the navbar stays fixed as you scroll through different sections.</p>
+            <p>The rounded pill shape gives it a modern, friendly appearance.</p>
+        </div>
+        
+        <div class="section" id="section3">
+            <h2>💎 Section 3</h2>
+            <p>Hover effects on navigation items provide instant visual feedback.</p>
+            <p>The color transitions are smooth and match the overall theme.</p>
+        </div>
+        
+        <div class="section" id="section4">
+            <h2>🎯 Section 4</h2>
+            <p>This floating navbar design is perfect for single-page applications.</p>
+            <p>It's minimal, unobtrusive, and highly functional.</p>
+        </div>
+    </div>
+    
+    <script>
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('visible');
+            } else {
+                navbar.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>
