@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ripple Click Effect - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 48px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0.9;
+            z-index: 10;
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid white;
+            pointer-events: none;
+            animation: ripple-expand 1s ease-out forwards;
+        }
+        
+        @keyframes ripple-expand {
+            from {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            to {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+        
+        .stats {
+            position: absolute;
+            top: 150px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 16px;
+            z-index: 10;
+        }
+        
+        .stats div {
+            margin: 10px 0;
+        }
+        
+        .click-counter {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>💧 Ripple Click Effect</h1>
+    
+    <div class="stats">
+        <div class="click-counter" id="clickCounter">0</div>
+        <div>Total Clicks</div>
+        <div id="cps">CPS: 0.0</div>
+    </div>
+    
+    <div class="info">
+        💡 Click anywhere to create ripple effects!<br>
+        Try rapid clicking for a cool cascade effect
+    </div>
+    
+    <script>
+        let clickCount = 0;
+        let clickTimes = [];
+        const clickCounter = document.getElementById('clickCounter');
+        const cpsDisplay = document.getElementById('cps');
+        
+        document.body.addEventListener('click', (e) => {
+            createRipple(e.clientX, e.clientY);
+            
+            // Update stats
+            clickCount++;
+            clickCounter.textContent = clickCount;
+            
+            // Calculate CPS (clicks per second)
+            const now = Date.now();
+            clickTimes.push(now);
+            clickTimes = clickTimes.filter(time => now - time < 1000);
+            cpsDisplay.textContent = `CPS: ${clickTimes.length.toFixed(1)}`;
+        });
+        
+        function createRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = (x - 150) + 'px';
+            ripple.style.top = (y - 150) + 'px';
+            
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

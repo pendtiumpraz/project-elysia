@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnetic Button - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 50px;
+            font-size: 48px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .button-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .magnetic-btn {
+            position: absolute;
+            padding: 25px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.1s ease-out;
+            transform-origin: center;
+        }
+        
+        .magnetic-btn:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .magnetic-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0.8;
+        }
+        
+        .debug-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧲 Magnetic Button</h1>
+    
+    <div class="button-container">
+        <button class="magnetic-btn" id="magneticBtn">
+            Click Me! ✨
+        </button>
+    </div>
+    
+    <div class="info">
+        💡 Move your mouse near the button and watch it follow you!
+    </div>
+    
+    <div class="debug-info" id="debugInfo">
+        Mouse X: 0<br>
+        Mouse Y: 0<br>
+        Distance: 0
+    </div>
+    
+    <script>
+        const button = document.getElementById('magneticBtn');
+        const container = document.querySelector('.button-container');
+        const debugInfo = document.getElementById('debugInfo');
+        
+        const MAGNETIC_RANGE = 150; // Pixel range for magnetic effect
+        const MAGNETIC_STRENGTH = 0.4; // How strong the pull is (0-1)
+        
+        let buttonRect = button.getBoundingClientRect();
+        
+        // Update button position on window resize
+        window.addEventListener('resize', () => {
+            buttonRect = button.getBoundingClientRect();
+        });
+        
+        container.addEventListener('mousemove', (e) => {
+            const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+            const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+            
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            // Calculate distance between mouse and button center
+            const deltaX = mouseX - buttonCenterX;
+            const deltaY = mouseY - buttonCenterY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            
+            // Update debug info
+            debugInfo.innerHTML = `
+                Mouse X: ${mouseX.toFixed(0)}<br>
+                Mouse Y: ${mouseY.toFixed(0)}<br>
+                Distance: ${distance.toFixed(0)}px
+            `;
+            
+            // Apply magnetic effect if within range
+            if (distance < MAGNETIC_RANGE) {
+                const force = (MAGNETIC_RANGE - distance) / MAGNETIC_RANGE;
+                const moveX = deltaX * force * MAGNETIC_STRENGTH;
+                const moveY = deltaY * force * MAGNETIC_STRENGTH;
+                
+                button.style.transform = `translate(${moveX}px, ${moveY}px) scale(${1 + force * 0.1})`;
+            } else {
+                button.style.transform = 'translate(0, 0) scale(1)';
+            }
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            button.style.transform = 'translate(0, 0) scale(1)';
+        });
+        
+        button.addEventListener('click', () => {
+            alert('🎉 You caught the magnetic button!');
+        });
+    </script>
+</body>
+</html>

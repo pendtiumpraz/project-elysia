@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elastic Cursor - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            overflow: hidden;
+            cursor: none;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 48px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        
+        .cursor-outer {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.15s ease-out;
+        }
+        
+        .cursor-inner {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.05s ease-out;
+        }
+        
+        .interactive-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 25px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: none;
+            transition: all 0.3s;
+        }
+        
+        .interactive-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0.8;
+        }
+        
+        .demo-area {
+            position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
+        }
+        
+        .demo-box {
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            transition: all 0.3s;
+        }
+        
+        .demo-box:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Elastic Cursor</h1>
+    
+    <div class="cursor-outer" id="cursorOuter"></div>
+    <div class="cursor-inner" id="cursorInner"></div>
+    
+    <div class="demo-area">
+        <div class="demo-box">🎨</div>
+        <div class="demo-box">⚡</div>
+        <div class="demo-box">🔥</div>
+        <div class="demo-box">💎</div>
+    </div>
+    
+    <button class="interactive-btn">Hover Me!</button>
+    
+    <div class="info">
+        💡 Move your mouse - notice the elastic cursor effect!<br>
+        Hover over elements to see the cursor expand
+    </div>
+    
+    <script>
+        const cursorOuter = document.getElementById('cursorOuter');
+        const cursorInner = document.getElementById('cursorInner');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let outerX = 0;
+        let outerY = 0;
+        let innerX = 0;
+        let innerY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Smooth elastic animation
+        function animate() {
+            // Inner cursor follows directly
+            innerX += (mouseX - innerX) * 0.3;
+            innerY += (mouseY - innerY) * 0.3;
+            
+            // Outer cursor lags behind for elastic effect
+            outerX += (mouseX - outerX) * 0.1;
+            outerY += (mouseY - outerY) * 0.1;
+            
+            cursorInner.style.left = innerX - 4 + 'px';
+            cursorInner.style.top = innerY - 4 + 'px';
+            
+            cursorOuter.style.left = outerX - 20 + 'px';
+            cursorOuter.style.top = outerY - 20 + 'px';
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // Expand cursor on hover
+        const interactiveElements = document.querySelectorAll('.interactive-btn, .demo-box');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOuter.style.width = '60px';
+                cursorOuter.style.height = '60px';
+                cursorOuter.style.borderColor = 'rgba(240, 147, 251, 0.8)';
+                cursorInner.style.transform = 'scale(1.5)';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursorOuter.style.width = '40px';
+                cursorOuter.style.height = '40px';
+                cursorOuter.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+                cursorInner.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Click effect
+        document.addEventListener('mousedown', () => {
+            cursorInner.style.transform = 'scale(0.5)';
+        });
+        
+        document.addEventListener('mouseup', () => {
+            cursorInner.style.transform = 'scale(1)';
+        });
+    </script>
+</body>
+</html>

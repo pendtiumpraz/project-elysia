@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotlight Effect - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .dark-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, rgba(0, 0, 0, 0.95) 100%);
+            pointer-events: none;
+            z-index: 10;
+            transition: background 0.1s;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 5;
+            padding: 50px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 72px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .card h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .card p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .emoji {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .info {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            z-index: 20;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 20;
+        }
+        
+        .control-label {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .slider {
+            width: 200px;
+            height: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dark-overlay" id="spotlight"></div>
+    
+    <div class="content">
+        <h1>🔦 Spotlight Effect</h1>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="emoji">🎨</div>
+                <h2>Creative Design</h2>
+                <p>Discover hidden content with an interactive spotlight effect that follows your cursor.</p>
+            </div>
+            
+            <div class="card">
+                <div class="emoji">⚡</div>
+                <h2>High Performance</h2>
+                <p>Smooth 60fps animation using CSS custom properties and optimized rendering.</p>
+            </div>
+            
+            <div class="card">
+                <div class="emoji">🎯</div>
+                <h2>Focus Mode</h2>
+                <p>Perfect for presentations or highlighting specific sections of your content.</p>
+            </div>
+            
+            <div class="card">
+                <div class="emoji">🌟</div>
+                <h2>Customizable</h2>
+                <p>Adjust the spotlight size with the slider control in real-time.</p>
+            </div>
+            
+            <div class="card">
+                <div class="emoji">🎭</div>
+                <h2>Dramatic Effect</h2>
+                <p>Create an engaging user experience with this theatrical lighting effect.</p>
+            </div>
+            
+            <div class="card">
+                <div class="emoji">🔮</div>
+                <h2>Mystery</h2>
+                <p>Add an element of discovery and intrigue to your web pages.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <div class="control-label">Spotlight Size</div>
+        <input type="range" class="slider" id="sizeSlider" min="50" max="400" value="150">
+        <div class="control-label" id="sizeValue">150px</div>
+    </div>
+    
+    <div class="info">
+        💡 Move your mouse to illuminate the darkness!
+    </div>
+    
+    <script>
+        const spotlight = document.getElementById('spotlight');
+        const sizeSlider = document.getElementById('sizeSlider');
+        const sizeValue = document.getElementById('sizeValue');
+        let spotlightSize = 150;
+        
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            
+            spotlight.style.background = `radial-gradient(circle ${spotlightSize}px at ${x}% ${y}%, transparent 0%, rgba(0, 0, 0, 0.95) 100%)`;
+        });
+        
+        sizeSlider.addEventListener('input', (e) => {
+            spotlightSize = e.target.value;
+            sizeValue.textContent = spotlightSize + 'px';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Distortion - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .distortion-text {
+            font-size: 120px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            user-select: none;
+            letter-spacing: 10px;
+        }
+        
+        .char {
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="distortion-text" id="distortionText">
+        HOVER ME
+    </div>
+    
+    <div class="info">
+        💡 Move your mouse over the text!
+    </div>
+    
+    <script>
+        const textElement = document.getElementById('distortionText');
+        const text = textElement.textContent;
+        
+        // Split text into individual characters
+        textElement.innerHTML = text.split('').map((char, i) => 
+            `<span class="char" data-index="${i}">${char === ' ' ? '&nbsp;' : char}</span>`
+        ).join('');
+        
+        const chars = document.querySelectorAll('.char');
+        
+        document.addEventListener('mousemove', (e) => {
+            chars.forEach((char, index) => {
+                const rect = char.getBoundingClientRect();
+                const charX = rect.left + rect.width / 2;
+                const charY = rect.top + rect.height / 2;
+                
+                const deltaX = e.clientX - charX;
+                const deltaY = e.clientY - charY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                
+                const maxDistance = 300;
+                
+                if (distance < maxDistance) {
+                    const force = (maxDistance - distance) / maxDistance;
+                    const moveX = (deltaX / distance) * force * 50;
+                    const moveY = (deltaY / distance) * force * 50;
+                    const scale = 1 + force * 0.5;
+                    const rotate = force * 20 * (index % 2 === 0 ? 1 : -1);
+                    
+                    const hue = (index * 30 + force * 100) % 360;
+                    
+                    char.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale}) rotate(${rotate}deg)`;
+                    char.style.color = `hsl(${hue}, 100%, 50%)`;
+                    char.style.textShadow = `0 0 ${force * 30}px currentColor`;
+                } else {
+                    char.style.transform = 'translate(0, 0) scale(1) rotate(0)';
+                    char.style.color = 'white';
+                    char.style.textShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

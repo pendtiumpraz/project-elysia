@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallax Layers - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #0a0e27;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .parallax-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .layer-1 {
+            z-index: 1;
+        }
+        
+        .layer-2 {
+            z-index: 2;
+        }
+        
+        .layer-3 {
+            z-index: 3;
+        }
+        
+        .layer-4 {
+            z-index: 4;
+        }
+        
+        .shape {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            opacity: 0.6;
+        }
+        
+        .shape-1 {
+            width: 800px;
+            height: 800px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .shape-2 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .shape-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .content {
+            position: absolute;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            pointer-events: none;
+        }
+        
+        .content h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .content p {
+            font-size: 24px;
+            opacity: 0.9;
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0.7;
+            z-index: 11;
+        }
+        
+        .coords {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            z-index: 11;
+        }
+    </style>
+</head>
+<body>
+    <div class="parallax-container">
+        <div class="layer layer-1" data-speed="0.2">
+            <div class="shape shape-1"></div>
+        </div>
+        <div class="layer layer-2" data-speed="0.4">
+            <div class="shape shape-2"></div>
+        </div>
+        <div class="layer layer-3" data-speed="0.6">
+            <div class="shape shape-3"></div>
+        </div>
+        
+        <div class="content">
+            <h1>🌌 Parallax Layers</h1>
+            <p>Multi-depth mouse tracking effect</p>
+        </div>
+    </div>
+    
+    <div class="coords" id="coords">
+        Mouse X: 0<br>
+        Mouse Y: 0
+    </div>
+    
+    <div class="info">
+        💡 Move your mouse to see the parallax depth effect!
+    </div>
+    
+    <script>
+        const layers = document.querySelectorAll('.layer');
+        const coordsDisplay = document.getElementById('coords');
+        
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            const deltaX = (mouseX - centerX) / centerX;
+            const deltaY = (mouseY - centerY) / centerY;
+            
+            coordsDisplay.innerHTML = `
+                Mouse X: ${mouseX}<br>
+                Mouse Y: ${mouseY}
+            `;
+            
+            layers.forEach(layer => {
+                const speed = parseFloat(layer.dataset.speed);
+                const moveX = deltaX * 100 * speed;
+                const moveY = deltaY * 100 * speed;
+                
+                layer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

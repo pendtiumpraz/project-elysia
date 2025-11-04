@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Trail - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            overflow: hidden;
+            cursor: none;
+        }
+        
+        h1 {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 48px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0.8;
+            z-index: 10;
+        }
+        
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s;
+        }
+        
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            opacity: 1;
+            z-index: 9998;
+        }
+        
+        .controls {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+        
+        .control-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .control-btn.active {
+            background: white;
+            color: #302b63;
+        }
+    </style>
+</head>
+<body>
+    <h1>✨ Particle Trail Effect</h1>
+    
+    <div class="controls">
+        <button class="control-btn active" data-color="rainbow">🌈 Rainbow</button>
+        <button class="control-btn" data-color="fire">🔥 Fire</button>
+        <button class="control-btn" data-color="ice">❄️ Ice</button>
+        <button class="control-btn" data-color="galaxy">🌌 Galaxy</button>
+    </div>
+    
+    <div class="info">
+        💡 Move your mouse around to create beautiful particle trails!
+    </div>
+    
+    <div class="cursor" id="cursor"></div>
+    
+    <script>
+        const cursor = document.getElementById('cursor');
+        const particles = [];
+        let currentColor = 'rainbow';
+        
+        const colorSchemes = {
+            rainbow: () => `hsl(${Math.random() * 360}, 100%, 50%)`,
+            fire: () => {
+                const colors = ['#ff0000', '#ff4500', '#ff6347', '#ffa500', '#ffff00'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            },
+            ice: () => {
+                const colors = ['#00ffff', '#00bfff', '#87ceeb', '#add8e6', '#e0ffff'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            },
+            galaxy: () => {
+                const colors = ['#8b00ff', '#9d00ff', '#b100ff', '#c400ff', '#ff00ff'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+        };
+        
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 15 + 5;
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = (Math.random() - 0.5) * 2;
+                this.color = colorSchemes[currentColor]();
+                this.life = 1;
+                this.element = document.createElement('div');
+                this.element.className = 'particle';
+                this.element.style.width = this.size + 'px';
+                this.element.style.height = this.size + 'px';
+                this.element.style.background = this.color;
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                document.body.appendChild(this.element);
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= 0.02;
+                
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                this.element.style.opacity = this.life;
+                this.element.style.transform = `scale(${this.life})`;
+                
+                if (this.life <= 0) {
+                    this.element.remove();
+                    return false;
+                }
+                return true;
+            }
+        }
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursor.style.left = mouseX - 10 + 'px';
+            cursor.style.top = mouseY - 10 + 'px';
+            
+            // Create particles
+            if (Math.random() > 0.7) {
+                particles.push(new Particle(mouseX, mouseY));
+            }
+        });
+        
+        // Color scheme buttons
+        document.querySelectorAll('.control-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.control-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentColor = btn.dataset.color;
+            });
+        });
+        
+        // Animation loop
+        function animate() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                if (!particles[i].update()) {
+                    particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

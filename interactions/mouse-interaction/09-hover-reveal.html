@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Reveal - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #000;
+            overflow: hidden;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            width: 100%;
+            height: 100vh;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            background: #111;
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 1;
+        }
+        
+        .gallery-item:hover::before {
+            opacity: 0.9;
+        }
+        
+        .item-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 120px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.1);
+            transition: all 0.5s;
+            z-index: 0;
+        }
+        
+        .gallery-item:hover .item-number {
+            color: white;
+            transform: translate(-50%, -50%) scale(1.2);
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+        
+        .item-content {
+            position: absolute;
+            bottom: -100px;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            color: white;
+            transition: bottom 0.5s;
+            z-index: 3;
+        }
+        
+        .gallery-item:hover .item-content {
+            bottom: 0;
+        }
+        
+        .item-content h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .item-content p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 48px;
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .show-hint .info {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body class="show-hint">
+    <div class="info">
+        Hover over the grid ✨
+    </div>
+    
+    <div class="gallery">
+        <div class="gallery-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%);">
+            <div class="item-number">01</div>
+            <div class="item-content">
+                <h3>Creative Design</h3>
+                <p>Innovative solutions for modern problems</p>
+            </div>
+        </div>
+        
+        <div class="gallery-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%);">
+            <div class="item-number">02</div>
+            <div class="item-content">
+                <h3>Development</h3>
+                <p>Building the future, one line at a time</p>
+            </div>
+        </div>
+        
+        <div class="gallery-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%);">
+            <div class="item-number">03</div>
+            <div class="item-content">
+                <h3>Marketing</h3>
+                <p>Reaching audiences worldwide</p>
+            </div>
+        </div>
+        
+        <div class="gallery-item" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 50%);">
+            <div class="item-number">04</div>
+            <div class="item-content">
+                <h3>Strategy</h3>
+                <p>Planning for long-term success</p>
+            </div>
+        </div>
+        
+        <div class="gallery-item" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 50%);">
+            <div class="item-number">05</div>
+            <div class="item-content">
+                <h3>Analytics</h3>
+                <p>Data-driven decision making</p>
+            </div>
+        </div>
+        
+        <div class="gallery-item" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 50%);">
+            <div class="item-number">06</div>
+            <div class="item-content">
+                <h3>Research</h3>
+                <p>Discovering new possibilities</p>
+            </div>
+        </div>
+        
+        <div class="gallery-item" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%);">
+            <div class="item-number">07</div>
+            <div class="item-content">
+                <h3>Innovation</h3>
+                <p>Pushing boundaries every day</p>
+            </div>
+        </div>
+        
+        <div class="gallery-item" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 50%);">
+            <div class="item-number">08</div>
+            <div class="item-content">
+                <h3>Excellence</h3>
+                <p>Committed to quality results</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        let hasInteracted = false;
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                if (!hasInteracted) {
+                    document.body.classList.remove('show-hint');
+                    hasInteracted = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

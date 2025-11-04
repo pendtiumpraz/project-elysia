@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnetic Menu - Mouse Interaction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 80px;
+            font-size: 48px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu {
+            display: flex;
+            gap: 20px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .menu-item {
+            position: relative;
+            padding: 20px 40px;
+            background: white;
+            border-radius: 40px;
+            color: #667eea;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.1s ease-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            user-select: none;
+        }
+        
+        .menu-item::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            font-size: 48px;
+            color: white;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .menu-item:hover::before {
+            opacity: 0.1;
+        }
+        
+        .menu-item:active {
+            transform: scale(0.95);
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 50px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            opacity: 0.8;
+        }
+        
+        .demo-text {
+            position: absolute;
+            top: 200px;
+            color: white;
+            font-size: 72px;
+            font-weight: bold;
+            opacity: 0.2;
+            user-select: none;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-text">MAGNETIC</div>
+    
+    <h1>🧲 Magnetic Menu</h1>
+    
+    <div class="menu" id="magneticMenu">
+        <div class="menu-item" data-text="🏠">Home</div>
+        <div class="menu-item" data-text="ℹ️">About</div>
+        <div class="menu-item" data-text="💼">Services</div>
+        <div class="menu-item" data-text="📁">Portfolio</div>
+        <div class="menu-item" data-text="📞">Contact</div>
+    </div>
+    
+    <div class="info">
+        💡 Move your mouse near the menu items!<br>
+        Watch them follow your cursor with magnetic attraction
+    </div>
+    
+    <script>
+        const menuItems = document.querySelectorAll('.menu-item');
+        const menu = document.getElementById('magneticMenu');
+        
+        const MAGNETIC_RANGE = 100;
+        const MAGNETIC_STRENGTH = 0.3;
+        
+        menu.addEventListener('mousemove', (e) => {
+            menuItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const itemCenterX = rect.left + rect.width / 2;
+                const itemCenterY = rect.top + rect.height / 2;
+                
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                
+                const deltaX = mouseX - itemCenterX;
+                const deltaY = mouseY - itemCenterY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                
+                if (distance < MAGNETIC_RANGE) {
+                    const force = (MAGNETIC_RANGE - distance) / MAGNETIC_RANGE;
+                    const moveX = deltaX * force * MAGNETIC_STRENGTH;
+                    const moveY = deltaY * force * MAGNETIC_STRENGTH;
+                    
+                    item.style.transform = `translate(${moveX}px, ${moveY}px) scale(${1 + force * 0.1})`;
+                    item.style.boxShadow = `0 ${10 + force * 20}px ${30 + force * 20}px rgba(0, 0, 0, ${0.2 + force * 0.2})`;
+                } else {
+                    item.style.transform = 'translate(0, 0) scale(1)';
+                    item.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+                }
+            });
+        });
+        
+        menu.addEventListener('mouseleave', () => {
+            menuItems.forEach(item => {
+                item.style.transform = 'translate(0, 0) scale(1)';
+                item.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+            });
+        });
+        
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                alert(`Clicked: ${item.textContent}`);
+            });
+        });
+    </script>
+</body>
+</html>
