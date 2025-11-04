@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave Animation Background</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #0a0e27;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q300,100 600,50 T1200,50 V120 H0 V50" fill="%23667eea" opacity="0.5"/></svg>');
+            background-repeat: repeat-x;
+            animation: wave-move 20s linear infinite;
+        }
+        
+        .wave-2 {
+            animation-duration: 15s;
+            opacity: 0.7;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,70 Q300,30 600,70 T1200,70 V120 H0 V70" fill="%23764ba2" opacity="0.5"/></svg>');
+            background-repeat: repeat-x;
+        }
+        
+        .wave-3 {
+            animation-duration: 10s;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,90 Q300,50 600,90 T1200,90 V120 H0 V90" fill="%23f093fb" opacity="0.5"/></svg>');
+            background-repeat: repeat-x;
+        }
+        
+        @keyframes wave-move {
+            from {transform: translateX(0);}
+            to {transform: translateX(-50%);}
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        p {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wave"></div>
+    <div class="wave wave-2"></div>
+    <div class="wave wave-3"></div>
+    
+    <div class="content">
+        <div>
+            <h1>🌊 Wave Animation</h1>
+            <p>Flowing liquid motion</p>
+        </div>
+    </div>
+</body>
+</html>

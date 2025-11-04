@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowing Orbs Background</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: #0a0a0a;
+            overflow: hidden;
+        }
+        
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: orb-float ease-in-out infinite;
+        }
+        
+        @keyframes orb-float {
+            0%, 100% {transform: translate(0, 0);}
+            25% {transform: translate(50px, -50px);}
+            50% {transform: translate(-50px, 50px);}
+            75% {transform: translate(50px, 50px);}
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #667eea;
+            top: 10%;
+            left: 10%;
+            animation-duration: 15s;
+        }
+        
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #f093fb;
+            top: 50%;
+            right: 10%;
+            animation-duration: 20s;
+            animation-delay: 5s;
+        }
+        
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: #4facfe;
+            bottom: 10%;
+            left: 30%;
+            animation-duration: 18s;
+            animation-delay: 10s;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        p {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    
+    <div class="content">
+        <div>
+            <h1>💫 Glowing Orbs</h1>
+            <p>Ambient light spheres</p>
+        </div>
+    </div>
+</body>
+</html>
