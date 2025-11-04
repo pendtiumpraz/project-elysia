@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horror Night - Landing Page</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {font-family: 'Creepster', 'Gothic', serif; background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #330000 100%); color: #fff; overflow-x: hidden;}
+        .fog {position: fixed; width: 100%; height: 100%; background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%); pointer-events: none; z-index: 1;}
+        .navbar {display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(0, 0, 0, 0.9); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 2px solid #8B0000;}
+        .logo {font-size: 32px; font-weight: bold; color: #8B0000; text-shadow: 0 0 20px #8B0000, 0 0 40px #8B0000; letter-spacing: 3px;}
+        .nav-links {display: flex; gap: 30px; list-style: none;}
+        .nav-links a {color: #fff; text-decoration: none; font-weight: bold; transition: all 0.3s; text-transform: uppercase; font-size: 14px; font-family: Arial;}
+        .nav-links a:hover {color: #8B0000; text-shadow: 0 0 10px #8B0000;}
+        .hero-section {min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 50px 50px; position: relative; z-index: 2; text-align: center;}
+        .hero-content {max-width: 800px; animation: fadeInUp 2s ease;}
+        @keyframes fadeInUp {from {opacity: 0; transform: translateY(50px);} to {opacity: 1; transform: translateY(0);}}
+        .hero-title {font-size: 80px; font-weight: bold; margin-bottom: 20px; color: #8B0000; text-shadow: 3px 3px 0 #000, 0 0 30px #8B0000; animation: flicker 3s ease-in-out infinite;}
+        @keyframes flicker {0%, 100% {opacity: 1;} 50% {opacity: 0.8;}}
+        .hero-subtitle {font-size: 32px; margin-bottom: 30px; text-shadow: 2px 2px 4px #000; font-family: Arial;}
+        .hero-description {font-size: 20px; margin-bottom: 40px; line-height: 1.8; font-family: Arial;}
+        .skull-icon {font-size: 150px; margin: 30px 0; animation: shake 2s ease-in-out infinite;}
+        @keyframes shake {0%, 100% {transform: rotate(0deg);} 25% {transform: rotate(-5deg);} 75% {transform: rotate(5deg);}}
+        .cta-buttons {display: flex; gap: 20px; justify-content: center;}
+        .btn {padding: 18px 40px; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; text-transform: uppercase; font-family: Arial;}
+        .btn-primary {background: #8B0000; color: #fff; box-shadow: 0 0 30px rgba(139, 0, 0, 0.7);}
+        .btn-primary:hover {transform: translateY(-3px); box-shadow: 0 0 50px rgba(139, 0, 0, 1);}
+        .btn-secondary {background: transparent; color: #8B0000; border: 3px solid #8B0000;}
+        .btn-secondary:hover {background: rgba(139, 0, 0, 0.2); transform: translateY(-3px);}
+        .features {padding: 100px 50px; background: rgba(0, 0, 0, 0.5); position: relative; z-index: 2;}
+        .section-title {text-align: center; font-size: 52px; margin-bottom: 60px; color: #8B0000; text-shadow: 0 0 20px #8B0000;}
+        .features-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;}
+        .feature-card {background: rgba(0, 0, 0, 0.8); padding: 40px; border-radius: 10px; border: 2px solid #8B0000; transition: all 0.3s;}
+        .feature-card:hover {transform: translateY(-10px); box-shadow: 0 0 40px rgba(139, 0, 0, 0.7);}
+        .feature-icon {font-size: 70px; margin-bottom: 20px;}
+        .feature-title {font-size: 26px; margin-bottom: 15px; font-weight: bold; color: #8B0000; font-family: Arial;}
+        .feature-description {font-size: 16px; line-height: 1.6; font-family: Arial;}
+    </style>
+</head>
+<body>
+    <div class="fog"></div>
+    <nav class="navbar">
+        <div class="logo">💀 HORROR NIGHT</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#stories">Stories</a></li>
+            <li><a href="#haunt">Haunt</a></li>
+            <li><a href="#survive">Survive</a></li>
+        </ul>
+    </nav>
+    <section class="hero-section" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Enter If You Dare</h1>
+            <div class="skull-icon">💀</div>
+            <p class="hero-subtitle">The Nightmare Begins</p>
+            <p class="hero-description">Step into the darkness where fear lurks around every corner. Face your deepest nightmares and survive the horror that awaits...</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Enter Darkness</a>
+                <a href="#" class="btn btn-secondary">Escape Route</a>
+            </div>
+        </div>
+    </section>
+    <section class="features" id="stories">
+        <h2 class="section-title">👻 Horror Tales</h2>
+        <div class="features-grid">
+            <div class="feature-card"><div class="feature-icon">🏚️</div><h3 class="feature-title">Haunted Manor</h3><p class="feature-description">Explore the cursed mansion where spirits never rest.</p></div>
+            <div class="feature-card"><div class="feature-icon">🌙</div><h3 class="feature-title">Midnight Terror</h3><p class="feature-description">When the clock strikes twelve, the nightmare unfolds.</p></div>
+            <div class="feature-card"><div class="feature-icon">👻</div><h3 class="feature-title">Ghost Stories</h3><p class="feature-description">Uncover the dark secrets of the restless souls.</p></div>
+        </div>
+    </section>
+</body>
+</html>
