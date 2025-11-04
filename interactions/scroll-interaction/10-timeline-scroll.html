@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Scroll Animation</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 100px 0;
+        }
+        
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 50px;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-progress {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 4px;
+            height: 0%;
+            background: white;
+            transform: translateX(-50%);
+            transition: height 0.3s;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 100px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-icon {
+            left: calc(50% - 30px);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-icon {
+            left: calc(50% + 30px);
+        }
+        
+        .timeline-date {
+            color: #667eea;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .timeline-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .timeline-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <div class="timeline-line">
+            <div class="timeline-progress" id="timelineProgress"></div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">🚀</div>
+            <div class="timeline-content">
+                <div class="timeline-date">2020</div>
+                <h3 class="timeline-title">Project Launch</h3>
+                <p class="timeline-text">Started our journey with a simple idea and big dreams.</p>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">💡</div>
+            <div class="timeline-content">
+                <div class="timeline-date">2021</div>
+                <h3 class="timeline-title">First Milestone</h3>
+                <p class="timeline-text">Reached 1000 users and expanded our team.</p>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">🎯</div>
+            <div class="timeline-content">
+                <div class="timeline-date">2022</div>
+                <h3 class="timeline-title">Major Update</h3>
+                <p class="timeline-text">Released version 2.0 with amazing new features.</p>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">⭐</div>
+            <div class="timeline-content">
+                <div class="timeline-date">2023</div>
+                <h3 class="timeline-title">Global Expansion</h3>
+                <p class="timeline-text">Opened offices in 5 new countries worldwide.</p>
+            </div>
+        </div>
+        
+        <div class="timeline-item">
+            <div class="timeline-icon">🏆</div>
+            <div class="timeline-content">
+                <div class="timeline-date">2024</div>
+                <h3 class="timeline-title">Award Winning</h3>
+                <p class="timeline-text">Recognized as the best product in our category!</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineProgress = document.getElementById('timelineProgress');
+        const timelineContainer = document.querySelector('.timeline-container');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {threshold: 0.3});
+        
+        timelineItems.forEach(item => observer.observe(item));
+        
+        window.addEventListener('scroll', () => {
+            const containerRect = timelineContainer.getBoundingClientRect();
+            const scrollProgress = Math.max(0, Math.min(1, -containerRect.top / (containerRect.height - window.innerHeight)));
+            timelineProgress.style.height = (scrollProgress * 100) + '%';
+        });
+    </script>
+</body>
+</html>

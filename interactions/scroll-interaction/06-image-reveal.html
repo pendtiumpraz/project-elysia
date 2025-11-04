@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Reveal on Scroll</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 50px;
+        }
+        
+        .image-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+        
+        .reveal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            transform-origin: left;
+            z-index: 2;
+        }
+        
+        .image-container.reveal-left .reveal-overlay {
+            animation: revealLeft 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+        
+        .image-container.reveal-right .reveal-overlay {
+            animation: revealRight 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+        
+        .image-container.reveal-top .reveal-overlay {
+            animation: revealTop 1.5s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+        
+        @keyframes revealLeft {
+            0% {transform: scaleX(1); transform-origin: left;}
+            50% {transform: scaleX(1); transform-origin: right;}
+            100% {transform: scaleX(0); transform-origin: right;}
+        }
+        
+        @keyframes revealRight {
+            0% {transform: scaleX(1); transform-origin: right;}
+            50% {transform: scaleX(1); transform-origin: left;}
+            100% {transform: scaleX(0); transform-origin: left;}
+        }
+        
+        @keyframes revealTop {
+            0% {transform: scaleY(1); transform-origin: top;}
+            50% {transform: scaleY(1); transform-origin: bottom;}
+            100% {transform: scaleY(0); transform-origin: bottom;}
+        }
+        
+        .image-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            color: white;
+            z-index: 1;
+        }
+        
+        .box-1 {background: linear-gradient(135deg, #667eea, #764ba2);}
+        .box-2 {background: linear-gradient(135deg, #f093fb, #f5576c);}
+        .box-3 {background: linear-gradient(135deg, #4facfe, #00f2fe);}
+        .box-4 {background: linear-gradient(135deg, #43e97b, #38f9d7);}
+        
+        .title {
+            color: white;
+            font-size: 48px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div>
+            <h2 class="title">🎨 Reveal from Left</h2>
+            <div class="image-container" data-reveal="left">
+                <div class="reveal-overlay"></div>
+                <div class="image-box box-1">IMAGE 1</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div>
+            <h2 class="title">✨ Reveal from Right</h2>
+            <div class="image-container" data-reveal="right">
+                <div class="reveal-overlay"></div>
+                <div class="image-box box-2">IMAGE 2</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div>
+            <h2 class="title">🚀 Reveal from Top</h2>
+            <div class="image-container" data-reveal="top">
+                <div class="reveal-overlay"></div>
+                <div class="image-box box-3">IMAGE 3</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div>
+            <h2 class="title">💎 Reveal from Left</h2>
+            <div class="image-container" data-reveal="left">
+                <div class="reveal-overlay"></div>
+                <div class="image-box box-4">IMAGE 4</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    const revealType = entry.target.dataset.reveal;
+                    entry.target.classList.add(`reveal-${revealType}`);
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, {threshold: 0.5});
+        
+        document.querySelectorAll('.image-container').forEach(container => {
+            observer.observe(container);
+        });
+    </script>
+</body>
+</html>

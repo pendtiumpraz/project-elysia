@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Scroll Sections</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+        }
+        
+        .sticky-container {
+            height: 400vh;
+            position: relative;
+        }
+        
+        .sticky-section {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .content-wrapper {
+            text-align: center;
+            transition: all 0.5s;
+        }
+        
+        .content-wrapper h1 {
+            font-size: 96px;
+            margin-bottom: 20px;
+        }
+        
+        .content-wrapper p {
+            font-size: 24px;
+            opacity: 0.8;
+        }
+        
+        .section-1 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .section-2 {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+        
+        .section-3 {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+        
+        .section-4 {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: white;
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="sticky-container">
+        <div class="sticky-section section-1">
+            <div class="content-wrapper">
+                <h1>📌 Section 1</h1>
+                <p>Scroll down to see sticky sections!</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="sticky-container">
+        <div class="sticky-section section-2">
+            <div class="content-wrapper">
+                <h1>✨ Section 2</h1>
+                <p>Each section sticks while scrolling</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="sticky-container">
+        <div class="sticky-section section-3">
+            <div class="content-wrapper">
+                <h1>🚀 Section 3</h1>
+                <p>Creating a layered effect</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="sticky-container">
+        <div class="sticky-section section-4">
+            <div class="content-wrapper">
+                <h1>💎 Section 4</h1>
+                <p>Perfect for storytelling!</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const progressBar = document.getElementById('progressBar');
+        
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Counter on Scroll</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 72px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stats-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 50px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s;
+        }
+        
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stat-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-number {
+            font-size: 56px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 20px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>📊 Scroll Down</h1>
+    </div>
+    
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card" data-count="1500">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Users</div>
+            </div>
+            
+            <div class="stat-card" data-count="250">
+                <div class="stat-icon">🚀</div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Projects</div>
+            </div>
+            
+            <div class="stat-card" data-count="99">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Rating</div>
+            </div>
+            
+            <div class="stat-card" data-count="5000">
+                <div class="stat-icon">💎</div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Downloads</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = Math.floor(target);
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start);
+                }
+            }, 16);
+        }
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('visible');
+                    entry.target.classList.add('animated');
+                    
+                    const numberEl = entry.target.querySelector('.stat-number');
+                    const target = parseInt(entry.target.dataset.count);
+                    
+                    setTimeout(() => {
+                        animateCounter(numberEl, target);
+                    }, 300);
+                }
+            });
+        }, {threshold: 0.5});
+        
+        document.querySelectorAll('.stat-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

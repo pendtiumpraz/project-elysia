@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Change on Scroll</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            transition: background 0.5s;
+        }
+        
+        .section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .content h1 {
+            font-size: 96px;
+            font-weight: bold;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s;
+        }
+        
+        .section.active .content h1 {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .section-1 {background: linear-gradient(135deg, #667eea, #764ba2);}
+        .section-2 {background: linear-gradient(135deg, #f093fb, #f5576c);}
+        .section-3 {background: linear-gradient(135deg, #4facfe, #00f2fe);}
+        .section-4 {background: linear-gradient(135deg, #43e97b, #38f9d7);}
+        .section-5 {background: linear-gradient(135deg, #fa709a, #fee140);}
+    </style>
+</head>
+<body>
+    <div class="section section-1" data-bg="linear-gradient(135deg, #667eea, #764ba2)">
+        <div class="content">
+            <h1>🎨 COLOR 1</h1>
+        </div>
+    </div>
+    
+    <div class="section section-2" data-bg="linear-gradient(135deg, #f093fb, #f5576c)">
+        <div class="content">
+            <h1>✨ COLOR 2</h1>
+        </div>
+    </div>
+    
+    <div class="section section-3" data-bg="linear-gradient(135deg, #4facfe, #00f2fe)">
+        <div class="content">
+            <h1>🚀 COLOR 3</h1>
+        </div>
+    </div>
+    
+    <div class="section section-4" data-bg="linear-gradient(135deg, #43e97b, #38f9d7)">
+        <div class="content">
+            <h1>💎 COLOR 4</h1>
+        </div>
+    </div>
+    
+    <div class="section section-5" data-bg="linear-gradient(135deg, #fa709a, #fee140)">
+        <div class="content">
+            <h1>🔥 COLOR 5</h1>
+        </div>
+    </div>
+    
+    <script>
+        const sections = document.querySelectorAll('.section');
+        
+        window.addEventListener('scroll', () => {
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2;
+                
+                if (isVisible) {
+                    section.classList.add('active');
+                    document.body.style.background = section.dataset.bg;
+                }
+            });
+        });
+        
+        // Initialize first section
+        sections[0].classList.add('active');
+        document.body.style.background = sections[0].dataset.bg;
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Reveal Letter by Letter</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+        }
+        
+        .text-reveal {
+            font-size: 72px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            max-width: 1000px;
+        }
+        
+        .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(50px) rotate(-10deg);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .char.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+        
+        .word {
+            display: inline-block;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="text-reveal" id="text1">
+            CREATIVE DESIGN
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="text-reveal" id="text2">
+            AMAZING ANIMATIONS
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="text-reveal" id="text3">
+            SCROLL EFFECTS
+        </div>
+    </div>
+    
+    <script>
+        function splitTextToChars(element) {
+            const text = element.textContent;
+            element.innerHTML = '';
+            
+            text.split(' ').forEach((word, wordIndex) => {
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'word';
+                
+                word.split('').forEach((char, charIndex) => {
+                    const charSpan = document.createElement('span');
+                    charSpan.className = 'char';
+                    charSpan.textContent = char;
+                    charSpan.style.transitionDelay = `${(wordIndex * 3 + charIndex) * 0.05}s`;
+                    wordSpan.appendChild(charSpan);
+                });
+                
+                element.appendChild(wordSpan);
+                
+                if (wordIndex < text.split(' ').length - 1) {
+                    element.appendChild(document.createTextNode(' '));
+                }
+            });
+        }
+        
+        document.querySelectorAll('.text-reveal').forEach(element => {
+            splitTextToChars(element);
+        });
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.char').forEach(char => {
+                        char.classList.add('visible');
+                    });
+                }
+            });
+        }, {threshold: 0.5});
+        
+        document.querySelectorAll('.text-reveal').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>

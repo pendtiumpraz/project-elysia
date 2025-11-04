@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoom In on Scroll</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+        }
+        
+        .zoom-section {
+            height: 200vh;
+            position: relative;
+        }
+        
+        .zoom-content {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .zoom-box {
+            width: 80%;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 72px;
+            font-weight: bold;
+            border-radius: 20px;
+            transform: scale(0.5);
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+        
+        .box-1 {background: linear-gradient(135deg, #667eea, #764ba2);}
+        .box-2 {background: linear-gradient(135deg, #f093fb, #f5576c);}
+        .box-3 {background: linear-gradient(135deg, #4facfe, #00f2fe);}
+    </style>
+</head>
+<body>
+    <div class="zoom-section">
+        <div class="zoom-content">
+            <div class="zoom-box box-1" id="box1">
+                🎯 ZOOM IN
+            </div>
+        </div>
+    </div>
+    
+    <div class="zoom-section">
+        <div class="zoom-content">
+            <div class="zoom-box box-2" id="box2">
+                ✨ SCROLL MORE
+            </div>
+        </div>
+    </div>
+    
+    <div class="zoom-section">
+        <div class="zoom-content">
+            <div class="zoom-box box-3" id="box3">
+                🚀 KEEP GOING
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const zoomBoxes = document.querySelectorAll('.zoom-box');
+        
+        window.addEventListener('scroll', () => {
+            zoomBoxes.forEach(box => {
+                const section = box.closest('.zoom-section');
+                const rect = section.getBoundingClientRect();
+                const sectionHeight = section.offsetHeight;
+                const progress = Math.max(0, Math.min(1, 1 - (rect.top / (sectionHeight - window.innerHeight))));
+                
+                const scale = 0.5 + (progress * 0.5);
+                const opacity = 0.5 + (progress * 0.5);
+                
+                box.style.transform = `scale(${scale})`;
+                box.style.opacity = opacity;
+            });
+        });
+    </script>
+</body>
+</html>

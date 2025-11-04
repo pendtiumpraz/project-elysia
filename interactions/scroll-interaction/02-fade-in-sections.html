@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fade In on Scroll</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 1s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .card {
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .card h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        
+        .card p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #666;
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .fade-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 1s ease-out;
+        }
+        
+        .fade-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1s ease-out;
+        }
+        
+        .fade-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-up {
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 1s ease-out;
+        }
+        
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="card fade-in">
+            <div class="icon">🎨</div>
+            <h2>Fade In</h2>
+            <p>This card fades in and slides up when it enters the viewport.</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="card fade-left">
+            <div class="icon">⚡</div>
+            <h2>From Left</h2>
+            <p>This one slides in from the left side with a smooth animation.</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="card fade-right">
+            <div class="icon">🚀</div>
+            <h2>From Right</h2>
+            <p>And this card enters from the right with style!</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="card fade-up">
+            <div class="icon">💎</div>
+            <h2>Scroll Magic</h2>
+            <p>Keep scrolling to see more animations appear!</p>
+        </div>
+    </div>
+    
+    <script>
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in, .fade-left, .fade-right, .fade-up').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
